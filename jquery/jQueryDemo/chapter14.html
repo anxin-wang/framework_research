@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<title>Untitled Document</title>
+		<!--1.Entire jQuery UI Suite-->
+		<!--link rel="stylesheet" type="text/css" href="resources/ui-lightness/jquery-ui-1.8.13.custom.css"-->
+		<script src="javascript/lib/jquery-ui-1.8.13.custom/js/jquery-1.5.1.min.js"></script>
+		<script src="javascript/lib/jquery-ui-1.8.13.custom/js/jquery-ui-1.8.13.custom.min.js"></script>
+		
+	</head>
+	<body>
+		<div id="topnav" style="width:100px;height:100px;background-color:red;"></div>
+		
+		<h2 class="demoHeaders">Tabs</h2>
+		<div id="tabs">
+			<ul>
+				<li><a href="#tabs-1">First</a></li>
+				<li><a href="#tabs-2">Second</a></li>
+				<li><a href="#tabs-3">Third</a></li>
+			</ul>
+			<div id="tabs-1">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+			<div id="tabs-2">Phasellus mattis tincidunt nibh. Cras orci urna, blandit id, pretium vel, aliquet ornare, felis. Maecenas scelerisque sem non nisl. Fusce sed lorem in enim dictum bibendum.</div>
+			<div id="tabs-3">Nam dui erat, auctor a, dignissim quis, sollicitudin eu, felis. Pellentesque nisi urna, interdum eget, sagittis et, consequat vestibulum, lacus. Mauris porttitor ullamcorper augue.</div>
+		</div>
+		
+		
+		
+		<script type="text/javascript">
+		$(function() {
+			//Ò»°ãÊ¹ÓÃ²å¼þµÄ·½·¨¾ÍÊÇ»ñÈ¡µ½Ò³ÃæÉÏÄ³Ò»¸öID,È»ºóµ÷ÓÃÒ»ÏÂ·½·¨£¬±ÈÈçdraggable²å¼þ¾ÍÓÃdraggable·½·¨
+			$('#topnav').draggable();
+			//Ò»¸ö²å¼þ³õÊ¼»¯¹ýÖ®ºó£¬ÔÙ´Î³õÊ¼»¯¾ÍÃ»ÓÐÓÃÁË£¬Ò»¶¨ÒªÏÈÏú»ÙÔÙ³õÊ¼»¯
+			//Èç¹ûÄã¶ÔÒ»¸öÊý×é½øÐÐ³õÊ¼»¯£¬Ôò¶ÔÀïÃæÃ¿Ò»¸öÔªËØ¶¼³õÊ¼»¯ÁË
+			//Ò²¾ÍÊÇËµ:
+			$('img').draggable();
+			//Ïàµ±ÓÚ
+			$('img').each(function() {
+				$(this).draggable();
+			});
+			
+			// Tabs
+			$('#tabs').tabs();
+		});
+		</script>
+		
+	</body>
+</html>
+
+

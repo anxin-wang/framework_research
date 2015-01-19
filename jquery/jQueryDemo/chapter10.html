@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<title>Untitled Document</title>
+		<script src="javascript/lib/jquery-1.6.1.js"></script>
+		
+	</head>
+	<body>
+		<!--1.ÓÐÐ©´úÂë²»Ò»¶¨ÒªÐ´ÔÚdocument.readyÀï£¬ÌØ±ðÊÇÒ»Ð©Ò³ÃæÒ»¼ÓÔØÍê¾ÍÒª´¥·¢µÄ²Ù×÷£¬ÓÐÊ±ºòÐ´ÔÚdocument.readyÀï»áÌ«ÂýÁË£¬
+		      Ö±½ÓÐ´ÔÚ¸ÃHTMLÔªËØÏÂÃæ¼´¿É£¬¾Í¿ÉÒÔÁ¢¼´´¥·¢-->
+		<input type="text" id="username"/>
+		<script type="text/javascript">
+			$('#username').focus();
+		</script>
+		<script type="text/javascript">
+		// when the HTML DOM is ready
+		$(document).ready(function(){
+			var $inputTxt = $('#username');
+			if( $inputTxt.val() == '' ) {
+				// focus the username input by default
+				$inputTxt.focus();
+			}
+		});
+</script>
+<!--2.Disabling and Enabling Form Elements-->
+		<fieldset id="shippingInfo">
+			<legend>Shipping Address</legend>
+			<label for="shipName">Name</label>
+			<input name="shipName" id="shipName" type="text" />
+			<label for="shipAddress">Address</label>
+			<input name="shipAddress" id="shipAddress" type="text" />
+		</fieldset>
+		<fieldset id="billingInfo">
+			<legend>Billing Address</legend>
+			<label for="sameAsShipping">Same as Shipping</label>
+			<input name="sameAsShipping" id="sameAsShipping" type="checkbox" value="sameAsShipping" />
+			<label for="billName">Name</label>
+			<input name="billName" id="billName" type="text" />
+			<label for="billAddress">Address</label>
+			<input name="billAddress" id="billAddress" type="text" />
+		</fieldset>	
+		<script>
+			//1.¹´Ñ¡same as shipping checkbox, Ö±½ÓdisableµôºóÃæµÄinput¿ò
+			$('#sameAsShipping').change(function(){
+				if( this.checked ){
+					// find all text inputs inside billingInfo and disable them
+					$('#billingInfo input:text').attr('disabled','disabled');
+				} else {
+					// find all text inputs inside billingInfo and enable them
+					$('#billingInfo input:text').removeAttr('disabled');
+				}
+			}).trigger('change'); // close change() then trigger it once
+			
+			//2.disableµô,²¢ÇÒ½«shippingµÄÖµÉè¸øbill
+			// find the "sameAsShipping" checkbox and listen for the change event
+			$('#sameAsShipping').change(function(){
+			if( this.checked ){
+			// find all text inputs inside billingInfo, disable them, then cycle			through each one
+			$('#billingInfo input:text').attr('disabled',
+			'disabled').each(function(i){
+			// find the shipping input that corresponds to this billing input
+			var valueFromShippingInput =
+			$('#shippingInfo input:text:eq('+i+')').val();
+			// set the billing value with the shipping text value
+			$(this).val( valueFromShippingInput );
+			}); // close each()
+			} else {
+			// find all text inputs inside billingInfo and enable them
+			$('#billingInfo input:text').removeAttr('disabled');
+			}
+			}).trigger('change'); // close change() then trigger it
+			
+			//3.Èç¹ûÇ°ÃæµÄÖµÓÐ±ä£¬¼°Ê±¸üÐÂµ½ºóÃæµÄ¿ò
+			// find the shippingInfo text inputs and listen for the keyup and change event
+			$('#shippingInfo input:text').bind('keyup change',function(){
+			// if "sameAsShipping" checkbox is checked
+			if ( $('#sameAsShipping:checked').length ){
+			// find out what text input this is
+			var i = $('#shippingInfo input:text').index( this );
+			var valueFromShippingInput = $(this).val();
+			$('#billingInfo input:text:eq('+i+')').val( valueFromShippingInput );
+			}
+			}); // close bind()
+			
+			/* What will happen when JavaScript is disabled? You should hide the checkbox by default
+in CSS. Then use JavaScript to add a class name to a parent element that would
+override the previous CSS rule. In the following example code I¡¯ve added an extra
+<div> surrounding the checkbox and label so they can be easily hidden:
+			
+			
+<style type="text/css" title="text/css">
+#sameAsShippingWrapper { display:none; }
+.jsEnabled #sameAsShippingWrapper { display:block }
+</style>
+...
+// when the HTML DOM is ready
+$(document).ready(function(){
+$('form').addClass('jsEnabled');
+});
+...
+<form>
+...
+<div id="sameAsShippingWrapper">
+<label for="sameAsShipping">Same as Shipping</label>
+<input name="sameAsShipping" id="sameAsShipping" type="checkbox" ... />
+</div>
+....
+</form>
+As an alternative to hiding the checkbox in CSS and showing it using JavaScript, you
+could add the checkbox to the DOM using JavaScript. I prefer to keep my HTML, CSS,
+and JavaScript separate, but sometimes this is the better solution:
+var html_label = '<label for="sameAsShipping">Same as Shipping</label>';
+var html_input = '<input name="sameAsShipping" id="sameAsShipping" type="checkbox"
+value="sameAsShipping" />';
+$( html_label + html_input ).prependTo('#billingInfo").change( ... ).trigger( ... );
+ */
+		</script>	
+	</body>
+</html>
+
+

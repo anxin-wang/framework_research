@@ -1,0 +1,228 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<title>Untitled Document</title>
+		<script src="javascript/lib/jquery-1.6.1.js"></script>		
+	</head>
+	<body>
+		<!--3.Selecting Radio Buttons Automatically-->
+		<p>How did you hear us?</p>
+		<ul id="chooseSource">
+			<li>
+			<input name="source" id="source1" type="radio" value="www" />
+			<label for="source1">Website or Blog</label>
+			</li>
+			<li>
+			<input name="source" id="source2" type="radio" value="mag" />
+			<label for="source2">Magazine</label>
+			</li>
+			<li>
+			<input name="source" id="source3" type="radio" value="per" />
+			<label for="source3">Friend</label>
+			</li>
+			<li>
+			<input name="source" id="source4" type="radio" value="oth" />
+			<label for="source4">Other</label>
+			<input name="source4txt" id="source4txt" type="text" />
+			</li>
+		</ul>
+		<script type="text/javascript">
+			//method 1 :when textbox blured,check the checkbox
+			$(function() {
+				// find any text input in chooseSource list, and listen for blur
+				$('#chooseSource input:text').blur(function(){
+					// if text input has text
+					if ( $(this).val() != '' ) {
+					// find the radio button sibling and set it be selected
+						$(this).siblings('input:radio').attr('checked',true);
+					}
+				})
+			});
+			//method 2:
+			//Èç¹ûÓÐ¶à¸ötext¿ò£¬eachÒ»ÏÂ£¬Ã¿Ò»¸ötext¿òblurÊ±Èç¹ûÀïÃæÓÐÄÚÈÝ£¬ÏàÓ¦µÄcheckbox checkÒ»ÏÂ
+			//µ±radioButton changeµÄÊ±ºò£¬Èç¹ûÊÇÑ¡ÖÐ×´Ì¬µÄ»°£¬Ò²focus text¿ò
+			$('#chooseSource input:text').each(function(){
+				// these are both used twice, let's store them to be more efficient
+				// the text input
+				var $inputTxt = $(this);
+				// the associated radio button
+				var $radioBtn = $inputTxt.siblings('input:radio');
+				// listen for the blur event on the text input
+				$inputTxt.blur(function(){
+				// if text input has text
+				if ( $inputTxt.val() != '' ) {
+					// select radio button
+					$radioBtn.attr('checked',true);
+				}
+				});
+				// listen for the change event on the radio button
+				$radioBtn.change(function(){
+					// if it is checked, focus on text input
+					if ( this.checked ) { $inputTxt.focus(); }
+				});
+			}); // close each()
+		</script>
+		<!--4.(De)selecting All Checkboxes Using Dedicated Links-->
+		<fieldset>
+			<legend>Reasons to be happy</legend>
+			<a class="selectAll" href="#">Select All</a>
+			<a class="deselectAll" href="#">Deselect All</a>
+			<input name="reasons" id="iwokeup" type="checkbox" value="iwokeup" />
+			<label for="iwokeup">I woke up</label>
+			<input name="reasons" id="health" type="checkbox" value="health" />
+			<label for="health">My health</label>
+			<input name="reasons" id="family" type="checkbox" value="family" />
+			<label for="family">My family</label>
+			<input name="reasons" id="sunshine" type="checkbox" value="sunshine" />
+			<label for="sunshine">The sun is shining</label>
+		</fieldset>
+		<script type="text/javascript">
+			$('fieldset .selectAll').click(function(event){
+				event.preventDefault();
+				// find all the checkboxes and select them
+				$(this).siblings('input:checkbox').attr('checked','checked');
+			});
+			// find the "Deselect All" link in a fieldset and list for the click event
+			$('fieldset .deselectAll').click(function(event){
+				event.preventDefault();
+				// find all the checkboxes and deselect them
+				$(this).siblings('input:checkbox').removeAttr('checked');
+			});
+		</script>
+		<!--5.(De)selecting All Checkboxes Using a Single Toggle-->
+		<fieldset>
+			<legend>Reasons to be happy</legend>
+			<input name="reasons" id="toggleAllReasons" type="checkbox" class="toggle" />
+			<label for="toggleAllReasons" class="toggle">Select All</label>
+			<input name="reasons" id="iwokeup" type="checkbox" value="iwokeup" />
+			<label for="iwokeup">I woke up</label>
+			<input name="reasons" id="health" type="checkbox" value="health" />
+			<label for="health">My health</label>
+			<input name="reasons" id="family" type="checkbox" value="family" />
+			<label for="family">My family</label>
+			<input name="reasons" id="sunshine" type="checkbox" value="sunshine" />
+			<label for="sunshine">The sun is shining</label>
+		</fieldset>
+		<script type="text/javascript">
+			// find the "Select All" toggle in a fieldset, cycle through each one you find
+			$('fieldset .toggle:checkbox').each(function(){
+			// these are used more than once, let's store them to be more efficient
+			// the toggle checkbox
+			var $toggle = $(this);
+			// the other checkboxes
+			var $checkboxes = $toggle.siblings('input:checkbox');
+			// listen for the change event on the toggle
+			$toggle.change(function(){
+			if ( this.checked ) {
+			// if checked, select all the checkboxes
+			$checkboxes.attr('checked','checked');
+			} else {
+			// if not checked, deselect all the checkboxes
+			$checkboxes.removeAttr('checked');
+			}
+			});
+			// listen for the change event on each individual checkbox (not toggle)
+			$checkboxes.change(function(){
+			if ( this.checked ) {
+			// if this is checked and all others are checked, select the toggle
+			if ( $checkboxes.length == $checkboxes.filter(':checked').length ) {
+			$toggle.attr('checked','checked');
+			}
+			} else {
+			// if not checked, deselect the toggle
+			$toggle.removeAttr('checked');
+			}
+			}).eq(0).trigger('change'); // close change() then trigger change on first	checkbox only
+			}); // close each()
+		</script>
+		<!--6.Adding and Removing Select Options-->
+		<label for="colors">Colors</label>
+		<select id="colors" multiple="multiple">
+			<option>Black</options>
+			<option>Blue</options>
+			<option>Brown</options>
+		</select>
+		<button id="remove">Remove Selected Color(s)</button>
+		<label for="newColorName">New Color Name</label>
+		<input id="newColorName" type="text" />
+		<label for="newColorValue">New Color Value</label>
+		<input id="newColorValue" type="text" />
+		<button id="add">Add New Color</button>
+		<script type="text/javascript">
+			// find the "Add New Color" button
+			$('#add').click(function(event){
+				event.preventDefault();
+				var optionName = $('#newColorName').val();
+				var optionValue = $('#newColorValue').val();
+				$('<option/>').attr('value',optionValue).text(optionName).appendTo('#colors');
+			});
+			// find the "Remove Selected Color(s)" button
+			$('#remove').click(function(event){
+				event.preventDefault();
+				var $select = $('#colors');
+				$('option:selected',$select).remove();
+			});
+		</script>
+		<!--8.Displaying Remaining Character Count-->
+		<textarea></textarea>
+		<div class="remaining">Characters remaining: <span class="count">300</span></div>
+		<script type="text/javascript">
+			$('.remaining').each(function(){
+				// find and store the count readout and the related textarea/input field
+				var $count = $('.count',this);
+				var $input = $(this).prev();
+				// .text() returns a string, multiply by 1 to make it a number (for math)
+				var maximumCount = $count.text()*1;
+				// update function is called on keyup, paste and input events
+				var update = function(){
+					var before = $count.text()*1;
+					var now = maximumCount - $input.val().length;
+					// check to make sure users haven't exceeded their limit
+					if ( now < 0 ){
+					var str = $input.val();
+					$input.val( str.substr(0,maximumCount) );
+					now = 0;
+					}
+					// only alter the DOM if necessary
+					if ( before != now ){
+						$count.text( now );
+					}
+				};
+				// listen for change (see discussion below)
+				$input.bind('input keyup paste', function(){setTimeout(update,0)} );
+				// call update initially, in case input is pre-filled
+				update();
+				}); // close .each()
+		</script>
+		<!---->
+		<input type="text" class="onlyNumbers" />
+		<script type="text/javascript">
+			$('.onlyNumbers').bind('keydown',function(event){
+				// the keycode for the key pressed
+				var keyCode = event.which;
+				// 48-57 Standard Keyboard Numbers
+				var isStandard = (keyCode > 47 && keyCode < 58);
+				// 96-105 Extended Keyboard Numbers (aka Keypad)
+				var isExtended = (keyCode > 95 && keyCode < 106);
+				// 8 Backspace, 46 Forward Delete
+				// 37 Left Arrow, 38 Up Arrow, 39 Right Arrow, 40 Down Arrow
+				var validKeyCodes = ',8,37,38,39,40,46,';
+				var isOther = ( validKeyCodes.indexOf(',' + keyCode + ',') > 6Ó11 );
+				if ( isStandard || isExtended || isOther ){
+				return true;
+				} else {
+				return false;
+				}
+			}).bind('blur',function(){
+				// regular expression that matches everything that is not a number
+				var pattern = new RegExp('[^0-9]+', 'g');
+				var $input = $(this);
+				var value = $input.val();
+				// clean the value using the regular expression
+				value = value.replace(pattern, '');
+				$input.val( value )
+			});
+		</script>
+	</body>
+</html>

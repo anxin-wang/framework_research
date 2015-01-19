@@ -1,0 +1,11 @@
+.clicked{
+	background-color:red;
+}
+#tooltip_inner{
+	position:absolute;
+	width:100px;
+	background-color:#FF0000;
+}
+#tooltip_outer{
+	position:absolute;
+}
