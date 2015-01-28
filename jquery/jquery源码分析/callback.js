@@ -1,3 +1,12 @@
+// String to Object options format cache
+var optionsCache = {};
+function createOptions( options ) {
+	var object = optionsCache[ options ] = {};
+	jQuery.each( options.match( core_rnotwhite ) || [], function( _, flag ) {
+		object[ flag ] = true;
+	});
+	return object;
+}
 /*
  * Create a callback list using the following parameters:
  *
