@@ -46,46 +46,58 @@
 // enough that all such attempts are guarded in a try block.
 "use strict";
 
+//空数组，用来获取数组的方法
 var arr = [];
 
+//获取document对象
 var document = window.document;
 
+//获取对象的prototype方法
 var getProto = Object.getPrototypeOf;
 
+//从已有的数组中返回选定的元素
 var slice = arr.slice;
 
+//连接两个或多个数组
 var concat = arr.concat;
 
+//元素进栈
 var push = arr.push;
 
+//返回下标
 var indexOf = arr.indexOf;
 
+//空json对象，用来获取对象的方法
 var class2type = {};
 
+//返回对象的字符串
 var toString = class2type.toString;
 
+//一个对象是否具有指定名称的属性,注意只是属性不是方法
 var hasOwn = class2type.hasOwnProperty;
 
+//TODO:方法转为字符串
 var fnToString = hasOwn.toString;
 
+//将对象的方法转为字符串
 var ObjectFunctionString = fnToString.call( Object );
+
 
 var support = {};
 
 
+//TODO
+function DOMEval( code, doc ) {
+    doc = doc || document;
 
-	function DOMEval( code, doc ) {
-		doc = doc || document;
+    var script = doc.createElement( "script" );
 
-		var script = doc.createElement( "script" );
-
-		script.text = code;
-		doc.head.appendChild( script ).parentNode.removeChild( script );
-	}
+    script.text = code;
+    doc.head.appendChild( script ).parentNode.removeChild( script );
+}
 
 
-var
-	version = "3.0.0",
+var version = "3.0.0",
 
 	// Define a local copy of jQuery
 	jQuery = function( selector, context ) {
@@ -95,8 +107,11 @@ var
 		return new jQuery.fn.init( selector, context );
 	},
 
+
+
 	// Support: Android <=4.0 only
 	// Make sure we trim BOM and NBSP
+    //正则表达式：去空格
 	rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g,
 
 	// Matches dashed string for camelizing
@@ -104,6 +119,7 @@ var
 	rdashAlpha = /-([a-z])/g,
 
 	// Used by jQuery.camelCase as callback to replace()
+    //字母返回大写格式
 	fcamelCase = function( all, letter ) {
 		return letter.toUpperCase();
 	};
@@ -113,6 +129,8 @@ jQuery.fn = jQuery.prototype = {
 	// The current version of jQuery being used
 	jquery: version,
 
+
+    //修正constructor指向
 	constructor: jQuery,
 
 	// The default length of a jQuery object is 0
@@ -2905,34 +2923,65 @@ var rootjQuery,
 		root = root || rootjQuery;
 
 		// Handle HTML strings
+
+
 		if ( typeof selector === "string" ) {
+            //先进行match标记
 			if ( selector[ 0 ] === "<" &&
 				selector[ selector.length - 1 ] === ">" &&
 				selector.length >= 3 ) {
 
+				//$('<li>'),$('<li>1</li><li>2</li>')
+
 				// Assume that strings that start and end with <> are HTML and skip the regex check
 				match = [ null, selector, null ];
 
+				//match = [ null, '<li>', null ];
+				//match = [ null, '<li>1</li><li>2</li>', null ];
+
 			} else {
+				//$('#div'),$('.box'),$('div'),$('#div div.box')
+				//$('<li>hello')
+
+                //匹配$('#div')，$('<li>hello')这种情况
 				match = rquickExpr.exec( selector );
+
+				//$('div'),$('#div div.box'),$('.box')  ==>  match=null
+				//$('#div') ==>  match=['#div',null,'div'];
+				//$('<li>hello')  ==>  match=['<li>hello','<li>',null];
 			}
 
 			// Match html or make sure no context is specified for #id
+            //根据match标记分情况讨论
+            //match存在并且中间项存在或者没有上下文，即以下四种情况：
+            //$('<li>')  ===>   match = [ null, '<li>', null ];
+            //,$('<li>1</li><li>2</li>') ===>  match = [ null, '<li>1</li><li>2</li>', null ];
+            //$('#div') ===>  match=['#div',null,'div']; 因为id选择器通常不需要上下文
+            //$('<li>hello')  ===>  match=['<li>hello','<li>',null];
 			if ( match && ( match[ 1 ] || !context ) ) {
 
 				// HANDLE: $(html) -> $(array)
+                // 排除id的其他三种情况，尤其是处理标签组
 				if ( match[ 1 ] ) {
+                    //获取context的dom对象。
+                    // 首先判断context是否是jquery对象，如果是的话取其dom对象
 					context = context instanceof jQuery ? context[ 0 ] : context;
 
 					// Option to run scripts is true for back-compat
 					// Intentionally let the error be thrown if parseHTML is not present
-					jQuery.merge( this, jQuery.parseHTML(
+					jQuery.merge( this,
+                        //将HTML字符串解析为对应的DOM节点数组
+                        jQuery.parseHTML(
 						match[ 1 ],
+						//如果有上下文节点，就返回该节点中最顶层节点，即document对象 context.ownerDocument
+						// 否则将Document对象赋给context对象，并将其返回
 						context && context.nodeType ? context.ownerDocument || context : document,
 						true
 					) );
 
 					// HANDLE: $(html, props)
+                    // 处理给html对象添加属性的情况
+                    // rsingleTag匹配单标签
 					if ( rsingleTag.test( match[ 1 ] ) && jQuery.isPlainObject( context ) ) {
 						for ( match in context ) {
 
@@ -2950,6 +2999,8 @@ var rootjQuery,
 					return this;
 
 				// HANDLE: $(#id)
+                //处理id的情况
+                // $('#div') ==>  match=['#div',null,'div'];
 				} else {
 					elem = document.getElementById( match[ 2 ] );
 
