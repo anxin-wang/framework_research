@@ -660,8 +660,7 @@
             return string.replace(rmsPrefix, "ms-").replace(rdashAlpha, fcamelCase);
         },
 
-        // 验证节点和节点名是否一致
-
+        // 验证节点和节点名是否一致，内部使用
         nodeName: function (elem, name) {
             return elem.nodeName && elem.nodeName.toLowerCase() === name.toLowerCase();
         },
@@ -671,6 +670,7 @@
             var value,
                 i = 0,
                 length = obj.length,
+                //判断是否是类数组
                 isArray = isArraylike(obj);
 
             // 内部循环
@@ -728,18 +728,27 @@
             var ret = results || [];
 
             if (arr != null) {
+                //将参数转成obj对象，并判断是否是类数组
+                // str在这里也可以通过判断，因为它有长度，只要有长度的都可以通过判断
                 if (isArraylike(Object(arr))) {
                     jQuery.merge(ret,
+                        //如果arr是string类型，就返回[arr]
+                        //否则，返回本身
+                        // 最后将其合并到ret中，并将ret返回
                         typeof arr === "string" ?
                             [arr] : arr
                     );
-                } else {
+                }
+                //不是类数组的情况，比如数字，就调用push方法
+                else {
                     core_push.call(ret, arr);
                 }
             }
 
             return ret;
         },
+
+        //返回元素在类数组中的下标
 
         inArray: function (elem, arr, i) {
             return arr == null ? -1 : core_indexOf.call(arr, elem, i);
@@ -750,32 +759,45 @@
                 i = first.length,
                 j = 0;
 
+            //如果第二个参数有长度，就用for循环
             if (typeof l === "number") {
+                //j小于第二个参数的长度l
                 for (; j < l; j++) {
                     first[i++] = second[j];
                 }
             } else {
+                //如果第二个参数没有长度，就用while来循环
                 while (second[j] !== undefined) {
                     first[i++] = second[j++];
                 }
             }
 
+            //最后循环出来的i值赋予first.length
             first.length = i;
 
+            //返回first
             return first;
         },
+
+        //过滤旧数组，返回新数组
 
         grep: function (elems, callback, inv) {
             var retVal,
                 ret = [],
                 i = 0,
                 length = elems.length;
+            //类型转换，将其变成boolean类型的值
+            //undefined会变成false
             inv = !!inv;
+
 
             // Go through the array, only saving the items
             // that pass the validator function
             for (; i < length; i++) {
+                //将返回值进行类型转换，转成布尔类型的值
                 retVal = !!callback(elems[i], i);
+                //如果retVal为真，则只有当inv为false时才进入判断，默认情况下就是这样
+                //而当inv为true，即需要进行反转时，retVal为假，即不满足条件的值才会进入判断
                 if (inv !== retVal) {
                     ret.push(elems[i]);
                 }
@@ -785,14 +807,17 @@
         },
 
         // arg is for internal usage only
+        //映射新数组，与grep不同的是新数组的值不是原数组，而是通过计算后的新值
         map: function (elems, callback, arg) {
             var value,
                 i = 0,
                 length = elems.length,
+                //判断是否是数组
                 isArray = isArraylike(elems),
                 ret = [];
 
             // Go through the array, translating each of the items to their
+            // 如果是数组的情况
             if (isArray) {
                 for (; i < length; i++) {
                     value = callback(elems[i], i, arg);
@@ -803,6 +828,7 @@
                 }
 
                 // Go through every key on the object,
+                // 如果不是数组的情况，也就是json对象的情况
             } else {
                 for (i in elems) {
                     value = callback(elems[i], i, arg);
@@ -814,6 +840,7 @@
             }
 
             // Flatten any nested arrays
+            // 最后将数组扁平化，即不要产生嵌套数组
             return core_concat.apply([], ret);
         },
 
