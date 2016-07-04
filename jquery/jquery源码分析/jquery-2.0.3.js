@@ -825,7 +825,13 @@
         proxy: function (fn, context) {
             var tmp, args, proxy;
 
+            /*
+                处理简写方式：
+                $(document).click($.proxy(obj,'show'));
+             */
+
             if (typeof context === "string") {
+                // 做一下两个参数的交换
                 tmp = fn[context];
                 context = fn;
                 fn = tmp;
@@ -838,13 +844,31 @@
             }
 
             // Simulated bind
+            // 将传入的参数进行分割，从第三个开始都是fn的参数
             args = core_slice.call(arguments, 2);
             proxy = function () {
+                /* 1.fn调用
+                   2.context为context或this对象
+                   3.proxy方法的参数先进行转数组操作:core_slice.call(arguments)
+                   4.然后将其与args合并
+                   例如:
+                   function show(n1,n2){
+                      alert(n1);
+                      alert(n2);
+                      alert(this);
+                   $.proxy(show,document,3)(4);
+                   这个例子中：3是args,4是arguments
+                   */
                 return fn.apply(context || this, args.concat(core_slice.call(arguments)));
             };
 
             // Set the guid of unique handler to the same of original handler, so it can be removed
+            // 将guid设好，以便可以将事件移除
             proxy.guid = fn.guid = fn.guid || jQuery.guid++;
+
+            // 将proxy返回
+            // 例如$.proxy(show,document,3)返回的就是proxy，然后调用便执行proxy = function () {};
+            // 然后返回fn的执行结果
 
             return proxy;
         },
@@ -912,17 +936,22 @@
                 old = {};
 
             // Remember the old values, and insert the new ones
+            // 将旧样式存起来，将参数中的新样式赋给元素
             for (name in options) {
                 old[name] = elem.style[name];
                 elem.style[name] = options[name];
             }
 
+            // 调用callback方法
             ret = callback.apply(elem, args || []);
 
             // Revert the old values
+            // 将存起来的旧样式赋给元素
             for (name in options) {
                 elem.style[name] = old[name];
             }
+
+            // 返回调用后的结果
 
             return ret;
         }
@@ -974,17 +1003,29 @@
         class2type["[object " + name + "]"] = name.toLowerCase();
     });
 
+    // 判断是否是类数组：有长度，不是函数类型的json对象或数组
+    // 适应类型：数组、类数组、特殊json
+
     function isArraylike(obj) {
         var length = obj.length,
             type = jQuery.type(obj);
+
+        // 如果是window对象，排除
 
         if (jQuery.isWindow(obj)) {
             return false;
         }
 
+        //如果是元素节点，元素节点的类数组，返回真
         if (obj.nodeType === 1 && length) {
             return true;
         }
+
+        /*
+           1.如果是数组
+           2.如果不是函数，且长度为0。或者长度>0且（length-1）在obj中，arguments或json对象
+           满足以上这两种情况，就是类数组
+         */
 
         return type === "array" || type !== "function" &&
             ( length === 0 ||
@@ -2992,6 +3033,8 @@
         return object;
     }
 
+    /************************Sizzle end******************************************/
+
     /*
      * Create a callback list using the following parameters:
      *
@@ -3179,6 +3222,8 @@
 
         return self;
     };
+
+
     jQuery.extend({
 
         Deferred: function (func) {
@@ -3320,6 +3365,8 @@
             return deferred.promise();
         }
     });
+
+
     jQuery.support = (function (support) {
         var input = document.createElement("input"),
             fragment = document.createDocumentFragment(),
