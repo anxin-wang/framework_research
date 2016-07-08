@@ -780,7 +780,6 @@
         },
 
         //过滤旧数组，返回新数组
-
         grep: function (elems, callback, inv) {
             var retVal,
                 ret = [],
@@ -902,40 +901,67 @@
 
         // Multifunctional method to get and set values of a collection
         // The value/s can optionally be executed if it's a function
+        // elems：元素
+        // fn：方法名
+        // key:参数1，key
+        // value:参数2，value
+        // chainable:为true设值；为false,取值
+        // emptyGet:
         access: function (elems, fn, key, value, chainable, emptyGet, raw) {
             var i = 0,
                 length = elems.length,
+                // 没有key值，bulk为真
                 bulk = key == null;
 
             // Sets many values
+            // 设置多组值的情况:
+            // 类似$('#div').css({background:'yellow',width:'300px'})
             if (jQuery.type(key) === "object") {
+                // 将chainable设为true,
                 chainable = true;
+                // 遍历key,递归调用access方法
                 for (i in key) {
                     jQuery.access(elems, fn, i, key[i], true, emptyGet, raw);
                 }
 
                 // Sets one value
+                // 设值单个值的情况，如果value不为undefined
             } else if (value !== undefined) {
                 chainable = true;
 
+                // 如果value不是function类型的
+
                 if (!jQuery.isFunction(value)) {
+                    // 将raw设为true
                     raw = true;
                 }
 
+                //bulk为真,没有key值的情况
+
                 if (bulk) {
                     // Bulk operations run against the entire set
+                    // 如果raw为true
                     if (raw) {
+                        // fn调用elems,并将value值传入
                         fn.call(elems, value);
+                        // fn置为空
                         fn = null;
 
                         // ...except when executing function values
+                        // 如果raw为false
                     } else {
+                        // fn的值赋予bulk
                         bulk = fn;
+                        // fn等于bulk（即原fn函数）调用elem和value的参数的返回值
                         fn = function (elem, key, value) {
                             return bulk.call(jQuery(elem), value);
                         };
                     }
                 }
+
+                // 如果fn存在，fn循环调用这些参数：elems[i],key
+                // raw是否为真，如果为真，第三个参数是value
+                // raw如果不为真：第三个参数是value.call(elems[i], i, fn(elems[i], key))
 
                 if (fn) {
                     for (; i < length; i++) {
@@ -944,10 +970,14 @@
                 }
             }
 
+            //设置or获取，chainable为true —— 设值；chainable为false —— 获取
+
             return chainable ?
                 elems :
 
                 // Gets
+                // 获取，首先看key是否为null,为null fn调用elems;不为null进入下一个判断
+                // length是否存在[length = elems.length]，存在的话直接返回第一个元素的key对应的value值；否则返回undefined
                 bulk ?
                     fn.call(elems) :
                     length ? fn(elems[0], key) : emptyGet;
@@ -3112,19 +3142,29 @@
             stack = !options.once && [],
         // Fire callbacks
             fire = function (data) {
+                // 设置memory的值
                 memory = options.memory && data;
                 fired = true;
                 firingIndex = firingStart || 0;
                 firingStart = 0;
                 firingLength = list.length;
+                // 触发进行时
                 firing = true;
+                // 中间就是一个for循环
                 for (; list && firingIndex < firingLength; firingIndex++) {
+                    // if是循环退出的条件
+                    // 调用函数，并处理stoponFalse的情况
+                    // 调用的参数是data[0]和data[1],data即为传入的参数
+                    // 如果函数运行的结果为false且stopOnFalse的值为true，进入if,循环退出
                     if (list[firingIndex].apply(data[0], data[1]) === false && options.stopOnFalse) {
                         memory = false; // To prevent further calls using add
                         break;
                     }
                 }
+                // 触发结束时
                 firing = false;
+
+
                 if (list) {
                     if (stack) {
                         if (stack.length) {
@@ -3143,16 +3183,26 @@
                 add: function () {
                     if (list) {
                         // First, we save the current length
+                        // 记录下未执行添加操作时list的长度
                         var start = list.length;
+                        // 对参数进行处理，一个自执行函数
                         (function add(args) {
+                            // 处理多个参数的情况：类似cb.add(aaa,bbb)
                             jQuery.each(args, function (_, arg) {
+                                //先判断每个函数的类型是否是function
                                 var type = jQuery.type(arg);
                                 if (type === "function") {
+                                    // 处理参数unique的情况
+                                    // 如果是unique,那么要看一下是否已有这个参数，如果不是则直接进循环
                                     if (!options.unique || !self.has(arg)) {
+                                        // 往list中添加arg
                                         list.push(arg);
                                     }
-                                } else if (arg && arg.length && type !== "string") {
+                                }
+                                // 处理类似cb.add([aaa,bbb])；的情况
+                                else if (arg && arg.length && type !== "string") {
                                     // Inspect recursively
+                                    // 递归调用函数add
                                     add(arg);
                                 }
                             });
@@ -3163,7 +3213,9 @@
                             firingLength = list.length;
                             // With memory, if we're not firing then
                             // we should call right away
-                        } else if (memory) {
+                        }
+                        // 处理memory的情况
+                        else if (memory) {
                             firingStart = start;
                             fire(memory);
                         }
@@ -3175,6 +3227,7 @@
                     if (list) {
                         jQuery.each(arguments, function (_, arg) {
                             var index;
+                            // 如果index在list中存在，执行splice操作，将元素从数组中去除
                             while (( index = jQuery.inArray(arg, list, index) ) > -1) {
                                 list.splice(index, 1);
                                 // Handle firing indexes
@@ -3194,24 +3247,30 @@
                 // Check if a given callback is in the list.
                 // If no argument is given, return whether or not list has callbacks attached.
                 has: function (fn) {
+                    // fn是否为undefined,如果不是则在list中查找，如果下标>-1,则判断为真，否则为假。
+                    // 如果fn为undefined，则返回list是否存在，如果存在则为真，否则为假。
                     return fn ? jQuery.inArray(fn, list) > -1 : !!( list && list.length );
                 },
                 // Remove all callbacks from the list
+                // 移除callback对象内所有的函数
                 empty: function () {
                     list = [];
                     firingLength = 0;
                     return this;
                 },
                 // Have the list do nothing anymore
+                // disable callback对象，将list,stack,memory都置为undefined
                 disable: function () {
                     list = stack = memory = undefined;
                     return this;
                 },
                 // Is it disabled?
+                // 返回是否disabled
                 disabled: function () {
                     return !list;
                 },
                 // Lock the list in its current state
+                // 将触发过程锁住
                 lock: function () {
                     stack = undefined;
                     if (!memory) {
@@ -3220,17 +3279,25 @@
                     return this;
                 },
                 // Is it locked?
+                // 返回是否锁住
                 locked: function () {
                     return !stack;
                 },
                 // Call all callbacks with the given context and arguments
                 fireWith: function (context, args) {
+                    // 如果list存在，并且fired为undefined，取反后为真
                     if (list && ( !fired || stack )) {
+                        // 先对参数进行一下处理
+                        // 如果是有值则赋值，不然就为空数组
                         args = args || [];
+                        // 将这句翻译一下，这句不太懂
                         args = [context, args.slice ? args.slice() : args];
+                        // firing的情况
                         if (firing) {
                             stack.push(args);
-                        } else {
+                        }
+                        // 调用fire函数
+                        else {
                             fire(args);
                         }
                     }
@@ -3238,10 +3305,12 @@
                 },
                 // Call all the callbacks with the given arguments
                 fire: function () {
+                    // 调用上面那个fireWith函数，将this对象和arguments传入
                     self.fireWith(this, arguments);
                     return this;
                 },
                 // To know if the callbacks have already been called at least once
+                // 查看是否已经触发，将fired值转成boolean类型返回
                 fired: function () {
                     return !!fired;
                 }

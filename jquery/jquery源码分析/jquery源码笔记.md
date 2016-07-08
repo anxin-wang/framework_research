@@ -10,7 +10,7 @@
 
 5.(877,2856)---Sizzle 复杂选择器的实现　例如：$("ul li.c");
 
-6.(3038,3223)---Callbacks：回调对象，通过回调对象管理函数，函数的统一管理方法。
+6.(3095,3223)---Callbacks：回调对象，通过回调对象管理函数，函数的统一管理方法。
 function fn1(){alert(1);}
 function fn2(alert(2));
 var cb = $.Callbacks();
