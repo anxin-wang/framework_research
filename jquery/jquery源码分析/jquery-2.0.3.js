@@ -3594,6 +3594,8 @@
         return support;
     })({});
 
+    /*Data Start*/
+
     /*
      Implementation Summary
 
@@ -3606,24 +3608,30 @@
      6. Provide a clear path for implementation upgrade to WeakMap in 2014
      */
     var data_user, data_priv,
+        //两个正则表达式
         rbrace = /(?:\{[\s\S]*\}|\[[\s\S]*\])$/,
         rmultiDash = /([A-Z])/g;
 
+    //
     function Data() {
         // Support: Android < 4,
         // Old WebKit does not have Object.preventExtensions/freeze method,
         // return new empty object instead with no [[set]] accessor
+        // 设置this.cache的第0个对象，只能获取值不能设值
         Object.defineProperty(this.cache = {}, 0, {
             get: function () {
                 return {};
             }
         });
 
+        //设值this.expando值
+
         this.expando = jQuery.expando + Math.random();
     }
-
+    // uid是this.cache的数组下标，从1开始
     Data.uid = 1;
 
+    // 下面会用到这个方法，只有node.element_node，node.document_node和object对象返回为true
     Data.accepts = function (owner) {
         // Accepts only:
         //  - Node
@@ -3631,73 +3639,102 @@
         //    - Node.DOCUMENT_NODE
         //  - Object
         //    - Any
+        //如果有nodeType属性，走owner.nodeType === 1 || owner.nodeType === 9，如果是1或者9返回true
+        //如果没有，则为object对象，直接返回true
         return owner.nodeType ?
         owner.nodeType === 1 || owner.nodeType === 9 : true;
     };
 
     Data.prototype = {
+        // key方法，分配id的过程
         key: function (owner) {
             // We can accept data for non-element nodes in modern browsers,
             // but we should not, see #8335.
             // Always return the key for a frozen object.
+
+            // 先判断元素类型，如果不在可接受的范围内，返回数字0
             if (!Data.accepts(owner)) {
                 return 0;
             }
 
             var descriptor = {},
             // Check if the owner object already has a cache key
+
+            // 先判断uid是否存在，unlock即为uid值
                 unlock = owner[this.expando];
+            //  例如unlock = body[jQuery38947893247293840]
 
             // If not, create one
+            // 如果没有，则创建一个
             if (!unlock) {
+                // data.uid先赋给unlock,并做++的操作，开始时unlock为1
                 unlock = Data.uid++;
 
                 // Secure it in a non-enumerable, non-writable property
+                // 两种给cache赋值的方式，第一种通用情况，设完就不能改写了，比较安全，但安卓小于4不支持
                 try {
+                    // descriptor[jQuery乱码] = {value：1}；
                     descriptor[this.expando] = {value: unlock};
+                    // 给元素（例如body)设上descriptor属性
                     Object.defineProperties(owner, descriptor);
 
                     // Support: Android < 4
                     // Fallback to a less secure definition
                 } catch (e) {
+                    // 另外一种设值的方式，安卓小于4时使用，使用jquery的extend方法
                     descriptor[this.expando] = unlock;
                     jQuery.extend(owner, descriptor);
                 }
             }
 
             // Ensure the cache object
+            // 如果cache里该下标的元素不存在，则创建一个空对象给它，如果在同一个元素上继续设值，则在cache[1]上继续增加json
             if (!this.cache[unlock]) {
                 this.cache[unlock] = {};
             }
 
+            //返回uid值
             return unlock;
         },
+        //设值
         set: function (owner, data, value) {
             var prop,
             // There may be an unlock assigned to this node,
             // if there is no entry for this "owner", create one inline
             // and set the unlock as though an owner entry had always existed
+                // 根据元素名获取uid
                 unlock = this.key(owner),
+                // 根据uid获取cache
                 cache = this.cache[unlock];
 
             // Handle: [ owner, key, value ] args
+            // data的json的key，value是json的value
+            // 如果data是string类型
             if (typeof data === "string") {
+                // 将data,value设给cache中
                 cache[data] = value;
 
                 // Handle: [ owner, { properties } ] args
             } else {
                 // Fresh assignments by object are shallow copied
+                // 如果不是string类型，那么data就是一个对象
+                // 如果cache是空对象，直接用继承
                 if (jQuery.isEmptyObject(cache)) {
                     jQuery.extend(this.cache[unlock], data);
-                    // Otherwise, copy the properties one-by-one to the cache object
-                } else {
+                }
+                // Otherwise, copy the properties one-by-one to the cache object
+                // 否则，一个一个赋值给cache
+                else {
                     for (prop in data) {
                         cache[prop] = data[prop];
                     }
                 }
             }
+            //最后返回cache
             return cache;
+
         },
+        //获取值
         get: function (owner, key) {
             // Either a valid cache is found, or will be created.
             // New caches will be created and the unlock returned,
@@ -3742,10 +3779,12 @@
             // return the expected data based on which path was taken[*]
             return value !== undefined ? value : key;
         },
+        //移除值
         remove: function (owner, key) {
             var i, name, camel,
                 unlock = this.key(owner),
                 cache = this.cache[unlock];
+            //
 
             if (key === undefined) {
                 this.cache[unlock] = {};
