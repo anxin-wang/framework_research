@@ -3139,24 +3139,30 @@
         // Actual callback list
             list = [],
         // Stack of fire calls for repeatable lists
+        // 重复调用fire()时，根据这个值，如果once为true,则这个值为false
             stack = !options.once && [],
         // Fire callbacks
             fire = function (data) {
                 // 设置memory的值
                 memory = options.memory && data;
+                // 第一次进入将fired设为true
                 fired = true;
+                // 设置firingIndex,先按照firingStart的值，没有则为0
                 firingIndex = firingStart || 0;
+                // 将firingStart设为0
                 firingStart = 0;
+                // firingLength的值为数组的长度
                 firingLength = list.length;
                 // 触发进行时
                 firing = true;
-                // 中间就是一个for循环
+                // 中间就是一个for循环，起始点是firingIndex,终止点是firingLength
                 for (; list && firingIndex < firingLength; firingIndex++) {
                     // if是循环退出的条件
                     // 调用函数，并处理stoponFalse的情况
                     // 调用的参数是data[0]和data[1],data即为传入的参数
                     // 如果函数运行的结果为false且stopOnFalse的值为true，进入if,循环退出
                     if (list[firingIndex].apply(data[0], data[1]) === false && options.stopOnFalse) {
+                        // 如果有stopOnFalse,且遇上false的返回值，memory无效，设为false。后续都不再执行
                         memory = false; // To prevent further calls using add
                         break;
                     }
@@ -3164,15 +3170,22 @@
                 // 触发结束时
                 firing = false;
 
-
+                // 如果list存在
                 if (list) {
+                    // 如果stack为true，即once没设值
                     if (stack) {
+                        // 如果stack有长度，即里面有值
                         if (stack.length) {
+                            // stack出栈并触发fire方法
                             fire(stack.shift());
                         }
-                    } else if (memory) {
+                    }
+                    // 如果stack为false，即once为true的情况且memory为true
+                    else if (memory) {
                         list = [];
-                    } else {
+                    }
+                    // 同上，但memory为false
+                    else {
                         self.disable();
                     }
                 }
@@ -3229,12 +3242,16 @@
                             var index;
                             // 如果index在list中存在，执行splice操作，将元素从数组中去除
                             while (( index = jQuery.inArray(arg, list, index) ) > -1) {
+
                                 list.splice(index, 1);
                                 // Handle firing indexes
+                                // 基于以上，进一步处理firing的remove情况
                                 if (firing) {
+                                    // 如果要移除的下标在firingLength的范围内，该数组长度减1
                                     if (index <= firingLength) {
                                         firingLength--;
                                     }
+                                    // 如果要移除的下标比firingIndex还要小，该数组的firingIndex减1，index往前移一格
                                     if (index <= firingIndex) {
                                         firingIndex--;
                                     }
@@ -3248,7 +3265,7 @@
                 // If no argument is given, return whether or not list has callbacks attached.
                 has: function (fn) {
                     // fn是否为undefined,如果不是则在list中查找，如果下标>-1,则判断为真，否则为假。
-                    // 如果fn为undefined，则返回list是否存在，如果存在则为真，否则为假。
+                    // 如果fn为undefined，即没有参数的情况，则返回list是否存在，如果存在则为真，否则为假。
                     return fn ? jQuery.inArray(fn, list) > -1 : !!( list && list.length );
                 },
                 // Remove all callbacks from the list
@@ -3272,14 +3289,16 @@
                 // Lock the list in its current state
                 // 将触发过程锁住
                 lock: function () {
+                    // stack置为空，则不会再进行第二次触发
                     stack = undefined;
+                    // 如果memory为true的情况，后续添加的仍然会触发，如果memory为false（即没有传这个参数），则整个list调用disable(),不再触发。
                     if (!memory) {
                         self.disable();
                     }
                     return this;
                 },
                 // Is it locked?
-                // 返回是否锁住
+                // 返回是否锁住，判断依据是stack存不存在。
                 locked: function () {
                     return !stack;
                 },
