@@ -3863,27 +3863,40 @@
     });
 
     jQuery.fn.extend({
+        // 写一个参数是获取值，写两个参数是设值
         data: function (key, value) {
             var attrs, name,
+                // 找到第1个数据，并存一下
                 elem = this[0],
                 i = 0,
                 data = null;
 
             // Gets all values
+            // 如果什么参数都不写，获取所有值
             if (key === undefined) {
+                // 如果this有长度，代表其中有内容
                 if (this.length) {
+                    // 获取第一个元素的data
                     data = data_user.get(elem);
 
+                    // 获取设置在元素上的data属性值
+                    // 一开始没有获取过data属性值时，hasDataAttrs这个值是不存在的，所以进入循环
                     if (elem.nodeType === 1 && !data_priv.get(elem, "hasDataAttrs")) {
+                        // 获取元素所有的属性
                         attrs = elem.attributes;
+                        // 遍历属性，如果遇到data-开头的，将其放到data_priv中
                         for (; i < attrs.length; i++) {
                             name = attrs[i].name;
 
+                            // 这里是判断name是否以“data-”开头
                             if (name.indexOf("data-") === 0) {
+                                // 将name除了'data-'之外的值全部转驼峰格式
                                 name = jQuery.camelCase(name.slice(5));
+                                // 将name和value都设到elem上，第三个参数传的是data[name],显然为undefined
                                 dataAttr(elem, name, data[name]);
                             }
                         }
+                        // 将data_priv的hasDataAttrs属性设为true
                         data_priv.set(elem, "hasDataAttrs", true);
                     }
                 }
@@ -3892,7 +3905,9 @@
             }
 
             // Sets multiple values
+            // 设置多个属性值，如果key是对象的情况
             if (typeof key === "object") {
+                // 遍历这个对象，并调用data_user的set方法
                 return this.each(function () {
                     data_user.set(this, key);
                 });
@@ -3907,9 +3922,12 @@
                 // `value` parameter was not undefined. An empty jQuery object
                 // will result in `undefined` for elem = this[ 0 ] which will
                 // throw an exception if an attempt to read a data cache is made.
+
+                // value是否为空，如果为空是获取
                 if (elem && value === undefined) {
                     // Attempt to get data from the cache
                     // with the key as-is
+                    // 首先获取最普通的形式，根据key获取data,如果存在则返回
                     data = data_user.get(elem, key);
                     if (data !== undefined) {
                         return data;
@@ -3917,6 +3935,7 @@
 
                     // Attempt to get data from the cache
                     // with the key camelized
+                    // 带横杠的属性，会转驼峰，根据转驼峰的值来找
                     data = data_user.get(elem, camelKey);
                     if (data !== undefined) {
                         return data;
@@ -3924,6 +3943,7 @@
 
                     // Attempt to "discover" the data in
                     // HTML5 custom data-* attrs
+                    // 获取html5中的属性值
                     data = dataAttr(elem, camelKey, undefined);
                     if (data !== undefined) {
                         return data;
@@ -3934,19 +3954,23 @@
                 }
 
                 // Set the data...
+                // 不为空的情况，设值
                 this.each(function () {
                     // First, attempt to store a copy or reference of any
                     // data that might've been store with a camelCased key.
+                    // 通过camelKey获取data值
                     var data = data_user.get(this, camelKey);
 
                     // For HTML5 data-* attribute interop, we have to
                     // store property names with dashes in a camelCase form.
                     // This might not apply to all properties...*
+                    // 将camelKey和值设置给data_user
                     data_user.set(this, camelKey, value);
 
                     // *... In the case of properties that might _actually_
                     // have dashes, we need to also store a copy of that
                     // unchanged property.
+                    // 如果key中有横杠，且data不为undefined,将带横杠的key和value都设给data_user
                     if (key.indexOf("-") !== -1 && data !== undefined) {
                         data_user.set(this, key, value);
                     }
@@ -3954,6 +3978,7 @@
             }, null, value, arguments.length > 1, null, true);
         },
 
+        //移除数据，根据传入的key，遍历this对象，每一个内部对象调用remove移除
         removeData: function (key) {
             return this.each(function () {
                 data_user.remove(this, key);
@@ -3966,16 +3991,24 @@
 
         // If nothing was found internally, try to fetch any
         // data from the HTML5 data-* attribute
+        // 如果data为undefined且elem是个元素，进入循环
         if (data === undefined && elem.nodeType === 1) {
+            //将原本驼峰形式的key值拼成以“data-”开头，横杠连接的形式
             name = "data-" + key.replace(rmultiDash, "-$1").toLowerCase();
+            // 通过name获取的值，并赋给data
             data = elem.getAttribute(name);
 
+            // 如果data类型是字符串
             if (typeof data === "string") {
                 try {
+                    // 如果是字符串形式的true,则存布尔类型的true,下面同样类比
                     data = data === "true" ? true :
                         data === "false" ? false :
                             data === "null" ? null :
                                 // Only convert to a number if it doesn't change the string
+                                // +data即把data转为数字，然后再+“”转成字符串跟原本的data进行比较。如果相同则转成数字类型
+                                // 如果不同，则测试一下是否为json格式的，如果是将其parse一下，将json格式的字符串转成json格式
+                                // 如果不是，返回原值。
                                 +data + "" === data ? +data :
                                     rbrace.test(data) ? JSON.parse(data) :
                                         data;
@@ -3983,11 +4016,14 @@
                 }
 
                 // Make sure we set the data so it isn't changed later
+                // 将key,data设给data_user
                 data_user.set(elem, key, data);
             } else {
+                // 其他情况，data设为undefined
                 data = undefined;
             }
         }
+        // 将data值返回
         return data;
     }
 
