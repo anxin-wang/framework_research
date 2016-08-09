@@ -4073,6 +4073,7 @@
                 };
 
             // If the fx queue is dequeued, always remove the progress sentinel
+            // 如果出队的结果是inprogress,再执行一下shift操作，此时便是第一个函数，长度减一
             if (fn === "inprogress") {
                 fn = queue.shift();
                 startLength--;
@@ -4082,24 +4083,31 @@
 
                 // Add a progress sentinel to prevent the fx queue from being
                 // automatically dequeued
+                //如果type为fx,即jquery动画，则立刻给queue数组第一项设成inprogress
                 if (type === "fx") {
                     queue.unshift("inprogress");
                 }
 
                 // clear up the last queue stop function
                 delete hooks.stop;
+                // 第一个函数出队后，立即执行该函数
                 fn.call(elem, next, hooks);
             }
 
+            // 如果startLength为0并且
             if (!startLength && hooks) {
+                //主动触发一下empty
                 hooks.empty.fire();
             }
         },
 
         // not intended for public consumption - generates a queueHooks object, or returns the current one
         _queueHooks: function (elem, type) {
+            //创建key,key为queue的type名+queueHooks
             var key = type + "queueHooks";
+            // 根据key值找到value,如果没有，则通过access方法存入一个empty方法
             return data_priv.get(elem, key) || data_priv.access(elem, key, {
+                    //清理一下data_priv
                     empty: jQuery.Callbacks("once memory").add(function () {
                         data_priv.remove(elem, [type + "queue", key]);
                     })
@@ -4129,7 +4137,11 @@
                     // ensure a hooks for this queue
                     jQuery._queueHooks(this, type);
 
+                    // inprogress针对动画场景，如果type==fx,并且queue的第一项不等于inprogress，执行dequeue操作
+                    // 入完队后直接让第一个出队
                     if (type === "fx" && queue[0] !== "inprogress") {
+                        // dequeue函数里有一个设置inprogress的地方
+                        // 设了之后将不会再进入这个判断，所以只有第一次会进入这个判断
                         jQuery.dequeue(this, type);
                     }
                 });
