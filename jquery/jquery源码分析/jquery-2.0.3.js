@@ -4032,12 +4032,18 @@
             var queue;
 
             if (elem) {
+                //给type赋值，如果没有传参数进来，默认为fx,并在尾部加上queue
                 type = ( type || "fx" ) + "queue";
+
+                //先从data_priv中获取queue，第一次肯定是不存在的
                 queue = data_priv.get(elem, type);
 
                 // Speed up dequeue by getting out quickly if this is just a lookup
                 if (data) {
+                    // 如果queue不存在（初始化）或者存在且data是数组的情况
+                    // 如果data是数组，则之前queue中所有的元素都清空，重新设置
                     if (!queue || jQuery.isArray(data)) {
+                        // 创建queue对象，queue从data中获取
                         queue = data_priv.access(elem, type, jQuery.makeArray(data));
                     } else {
                         queue.push(data);
@@ -4048,12 +4054,20 @@
         },
 
         dequeue: function (elem, type) {
+            // 默认是fx的队列
             type = type || "fx";
 
+
+            // 定义变量queue
             var queue = jQuery.queue(elem, type),
+
+                // 获取queue的长度
                 startLength = queue.length,
+                // 第一个函数出队
                 fn = queue.shift(),
                 hooks = jQuery._queueHooks(elem, type),
+
+                // 定义next函数，做的是dequeue的操作
                 next = function () {
                     jQuery.dequeue(elem, type);
                 };

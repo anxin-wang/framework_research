@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9dc16a49-0f98-44d0-9d69-dfce5cc32a48" name="Default" comment="">
+    <list default="true" id="9dc16a49-0f98-44d0-9d69-dfce5cc32a48" name="Default" comment="aa">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jquery/jquery源码分析/jquery-2.0.3.js" afterPath="$PROJECT_DIR$/jquery/jquery源码分析/jquery-2.0.3.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jquery/jquery源码分析/jquery源码笔记.md" afterPath="$PROJECT_DIR$/jquery/jquery源码分析/jquery源码笔记.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="jsDemo_framework-research.iws" />
@@ -50,13 +51,18 @@
       <file leaf-file-name="jquery-2.0.3.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/jquery/jquery源码分析/jquery-2.0.3.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="2.125">
-              <caret line="3972" column="55" selection-start-line="3972" selection-start-column="55" selection-end-line="3972" selection-end-column="55" />
+            <state vertical-scroll-proportion="0.77065766">
+              <caret line="4132" column="24" selection-start-line="4132" selection-start-column="24" selection-end-line="4132" selection-end-column="24" />
               <folding>
                 <element signature="e#17485#17932#0" expanded="false" />
                 <element signature="e#19082#19216#0" expanded="false" />
                 <element signature="e#19273#19318#0" expanded="false" />
                 <element signature="e#19614#20717#0" expanded="false" />
+                <element signature="e#144699#146032#0" expanded="false" />
+                <element signature="e#146083#146488#0" expanded="false" />
+                <element signature="e#146535#147794#0" expanded="false" />
+                <element signature="e#147848#149438#0" expanded="false" />
+                <element signature="e#155652#157258#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -160,8 +166,8 @@
         <entry file="file://$PROJECT_DIR$/jquery/jquery源码分析/jquery源码笔记.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
             <state split_layout="FIRST">
-              <first_editor vertical-scroll-proportion="0.0">
-                <caret line="12" column="7" selection-start-line="12" selection-start-column="7" selection-end-line="12" selection-end-column="7" />
+              <first_editor vertical-scroll-proportion="0.5055762">
+                <caret line="47" column="28" selection-start-line="47" selection-start-column="28" selection-end-line="47" selection-end-column="28" />
                 <folding />
               </first_editor>
               <second_editor />
@@ -223,7 +229,7 @@
   <component name="ProjectFrameBounds">
     <option name="y" value="22" />
     <option name="width" value="1280" />
-    <option name="height" value="710" />
+    <option name="height" value="711" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -248,7 +254,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -316,6 +321,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -411,11 +417,17 @@
       <option name="project" value="LOCAL" />
       <updated>1468923101663</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="aa">
+      <created>1468998522241</created>
+      <option name="number" value="00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1468998522241</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1280" height="710" extended-state="6" />
+    <frame x="0" y="22" width="1280" height="711" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
@@ -520,6 +532,11 @@
             <element signature="e#19082#19216#0" expanded="false" />
             <element signature="e#19273#19318#0" expanded="false" />
             <element signature="e#19614#20717#0" expanded="false" />
+            <element signature="e#144699#146032#0" expanded="false" />
+            <element signature="e#146083#146488#0" expanded="false" />
+            <element signature="e#146535#147794#0" expanded="false" />
+            <element signature="e#147848#149438#0" expanded="false" />
+            <element signature="e#155652#157258#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -664,6 +681,11 @@
             <element signature="e#19082#19216#0" expanded="false" />
             <element signature="e#19273#19318#0" expanded="false" />
             <element signature="e#19614#20717#0" expanded="false" />
+            <element signature="e#144699#146032#0" expanded="false" />
+            <element signature="e#146083#146488#0" expanded="false" />
+            <element signature="e#146535#147794#0" expanded="false" />
+            <element signature="e#147848#149438#0" expanded="false" />
+            <element signature="e#155652#157258#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -800,6 +822,11 @@
             <element signature="e#19082#19216#0" expanded="false" />
             <element signature="e#19273#19318#0" expanded="false" />
             <element signature="e#19614#20717#0" expanded="false" />
+            <element signature="e#144699#146032#0" expanded="false" />
+            <element signature="e#146083#146488#0" expanded="false" />
+            <element signature="e#146535#147794#0" expanded="false" />
+            <element signature="e#147848#149438#0" expanded="false" />
+            <element signature="e#155652#157258#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -936,6 +963,11 @@
             <element signature="e#19082#19216#0" expanded="false" />
             <element signature="e#19273#19318#0" expanded="false" />
             <element signature="e#19614#20717#0" expanded="false" />
+            <element signature="e#144699#146032#0" expanded="false" />
+            <element signature="e#146083#146488#0" expanded="false" />
+            <element signature="e#146535#147794#0" expanded="false" />
+            <element signature="e#147848#149438#0" expanded="false" />
+            <element signature="e#155652#157258#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1295,16 +1327,10 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jquery/jquery源码分析/jquery源码笔记.md">
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="40" column="28" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
       <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
         <state split_layout="FIRST">
-          <first_editor vertical-scroll-proportion="0.0">
-            <caret line="12" column="7" selection-start-line="12" selection-start-column="7" selection-end-line="12" selection-end-column="7" />
+          <first_editor vertical-scroll-proportion="0.5055762">
+            <caret line="47" column="28" selection-start-line="47" selection-start-column="28" selection-end-line="47" selection-end-column="28" />
             <folding />
           </first_editor>
           <second_editor />
@@ -1313,16 +1339,27 @@
       <provider editor-type-id="MarkdownFxPreviewEditor">
         <state />
       </provider>
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="40" column="28" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jquery/jquery源码分析/jquery-2.0.3.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.125">
-          <caret line="3972" column="55" selection-start-line="3972" selection-start-column="55" selection-end-line="3972" selection-end-column="55" />
+        <state vertical-scroll-proportion="0.77065766">
+          <caret line="4132" column="24" selection-start-line="4132" selection-start-column="24" selection-end-line="4132" selection-end-column="24" />
           <folding>
             <element signature="e#17485#17932#0" expanded="false" />
             <element signature="e#19082#19216#0" expanded="false" />
             <element signature="e#19273#19318#0" expanded="false" />
             <element signature="e#19614#20717#0" expanded="false" />
+            <element signature="e#144699#146032#0" expanded="false" />
+            <element signature="e#146083#146488#0" expanded="false" />
+            <element signature="e#146535#147794#0" expanded="false" />
+            <element signature="e#147848#149438#0" expanded="false" />
+            <element signature="e#155652#157258#0" expanded="false" />
           </folding>
         </state>
       </provider>
