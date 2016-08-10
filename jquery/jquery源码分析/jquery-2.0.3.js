@@ -4049,6 +4049,7 @@
                         queue.push(data);
                     }
                 }
+                //返回queue或者空数组
                 return queue || [];
             }
         },
@@ -4089,6 +4090,7 @@
                 }
 
                 // clear up the last queue stop function
+                // 清除hooks.stop
                 delete hooks.stop;
                 // 第一个函数出队后，立即执行该函数
                 fn.call(elem, next, hooks);
@@ -4116,25 +4118,35 @@
     });
 
     jQuery.fn.extend({
+        // div.queue("fx",function(){...})
         queue: function (type, data) {
+            // 定义一个变量
             var setter = 2;
 
+            // 如果type类型不等于string,则将type设到data上，type设成fx,setter--
             if (typeof type !== "string") {
                 data = type;
                 type = "fx";
                 setter--;
             }
 
+            // 如果arguments的长度小于setter的值
+            // 通常情况下setter=2，如果小于2，则为0或1，意思就是如果arguments的长度为0或1
             if (arguments.length < setter) {
+                // 调用jquery.queue，返回当前jquery对象数组中第一个元素的该type类型的对象
                 return jQuery.queue(this[0], type);
             }
 
+            // 先判断data是否为undefined,如果是返回this对象。
+            // 如果不是，则遍历整个this对象，进行设置
             return data === undefined ?
                 this :
                 this.each(function () {
+                    // 将type和data作为参数传给jQuery.queue函数，查找一下有没有这个queue的集合
                     var queue = jQuery.queue(this, type, data);
 
                     // ensure a hooks for this queue
+                    // 为这个queue创建一个hooks,或者返回已有的hooks
                     jQuery._queueHooks(this, type);
 
                     // inprogress针对动画场景，如果type==fx,并且queue的第一项不等于inprogress，执行dequeue操作
@@ -4146,6 +4158,8 @@
                     }
                 });
         },
+
+        // 直接调用jQuery.dequeue
         dequeue: function (type) {
             return this.each(function () {
                 jQuery.dequeue(this, type);
@@ -4153,17 +4167,25 @@
         },
         // Based off of the plugin by Clint Helfers, with permission.
         // http://blindsignals.com/index.php/2009/07/jquery-delay/
+
         delay: function (time, type) {
+            // 先判断jQuery.fx是否存在，如果存在则返回jQuery.fx.speeds[time]或者time
+            // jQuery.fx.speeds[time]针对'slow','fast'这样的字符串对应的数值
+            // 如果jQuery.fx不存在，则直接返回time
             time = jQuery.fx ? jQuery.fx.speeds[time] || time : time;
+            // type值的设置，默认为fx
             type = type || "fx";
 
+            //加一个回调函数，其中将出队操作next()设置一个持续时间为time的setTimeout
             return this.queue(type, function (next, hooks) {
                 var timeout = setTimeout(next, time);
+                // 清理setTimeout定时器，一般用不上
                 hooks.stop = function () {
                     clearTimeout(timeout);
                 };
             });
         },
+        // 清理queue,将queue置为空数组
         clearQueue: function (type) {
             return this.queue(type || "fx", []);
         },
@@ -4171,30 +4193,47 @@
         // are emptied (fx is the type by default)
         promise: function (type, obj) {
             var tmp,
+                // count为计数器
                 count = 1,
+                //定义defer对象
                 defer = jQuery.Deferred(),
+                // elements即为this对象，调用promise函数的对象
                 elements = this,
+                // i为this对象的长度
                 i = this.length,
+
+                // promise resolve的函数调用
+                // 如果count不为0，是不会调用函数的
+                // 只要还有队列在，就不会调用函数，直到队列全部出队
                 resolve = function () {
                     if (!( --count )) {
                         defer.resolveWith(elements, [elements]);
                     }
                 };
 
+            // 对type进行处理
             if (typeof type !== "string") {
                 obj = type;
                 type = undefined;
             }
             type = type || "fx";
 
+            //遍历elements数组，计算队列数，并添加resolve函数
             while (i--) {
+                // 根据type+"queueHooks"去找对应的queueHooks object
                 tmp = data_priv.get(elements[i], type + "queueHooks");
+                // 如果queueHooks object存在且empty方法存在，说明这个队列的存在
                 if (tmp && tmp.empty) {
+                    //队列计数器++
                     count++;
+                    // 往empty这个回调函数里增加一个resolve函数，只要出队时就会调用resolve函数
                     tmp.empty.add(resolve);
                 }
             }
+
+            //手动调用一次resolve函数
             resolve();
+            //最后返回defer的promise对象
             return defer.promise(obj);
         }
     });
