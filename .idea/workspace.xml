@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9dc16a49-0f98-44d0-9d69-dfce5cc32a48" name="Default" comment="">
+    <list default="true" id="9dc16a49-0f98-44d0-9d69-dfce5cc32a48" name="Default" comment="aa">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jquery/jquery源码分析/jquery-2.0.3.js" afterPath="$PROJECT_DIR$/jquery/jquery源码分析/jquery-2.0.3.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -50,18 +50,18 @@
       <file leaf-file-name="jquery-2.0.3.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/jquery/jquery源码分析/jquery-2.0.3.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.9137529">
-              <caret line="4227" column="28" selection-start-line="4227" selection-start-column="28" selection-end-line="4227" selection-end-column="28" />
+            <state vertical-scroll-proportion="0.4755245">
+              <caret line="8268" column="33" selection-start-line="8268" selection-start-column="33" selection-end-line="8268" selection-end-column="33" />
               <folding>
                 <element signature="e#17485#17932#0" expanded="false" />
                 <element signature="e#19082#19216#0" expanded="false" />
                 <element signature="e#19273#19318#0" expanded="false" />
                 <element signature="e#19614#20717#0" expanded="false" />
-                <element signature="e#144699#146032#0" expanded="false" />
-                <element signature="e#146083#146488#0" expanded="false" />
-                <element signature="e#146535#147794#0" expanded="false" />
-                <element signature="e#147848#149438#0" expanded="false" />
-                <element signature="e#155652#157258#0" expanded="false" />
+                <element signature="e#146687#148020#0" expanded="false" />
+                <element signature="e#148071#148476#0" expanded="false" />
+                <element signature="e#148523#149782#0" expanded="false" />
+                <element signature="e#149836#151426#0" expanded="false" />
+                <element signature="e#157640#159246#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -163,6 +163,9 @@
       </file>
       <file leaf-file-name="jquery源码笔记.md" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/jquery/jquery源码分析/jquery源码笔记.md">
+          <provider editor-type-id="MarkdownFxPreviewEditor">
+            <state />
+          </provider>
           <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
             <state split_layout="FIRST">
               <first_editor vertical-scroll-proportion="0.0">
@@ -171,9 +174,6 @@
               </first_editor>
               <second_editor />
             </state>
-          </provider>
-          <provider editor-type-id="MarkdownFxPreviewEditor">
-            <state />
           </provider>
         </entry>
       </file>
@@ -226,9 +226,10 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="22" />
+    <option name="x" value="5" />
+    <option name="y" value="24" />
     <option name="width" value="1280" />
-    <option name="height" value="711" />
+    <option name="height" value="708" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -253,8 +254,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -321,6 +320,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -428,33 +429,39 @@
       <option name="project" value="LOCAL" />
       <updated>1470736124804</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="aa">
+      <created>1470820497922</created>
+      <option name="number" value="00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1470820497922</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1280" height="711" extended-state="6" />
+    <frame x="5" y="24" width="1280" height="708" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21207307" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21207307" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2180937" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21682848" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32852563" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33014354" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CSS-X-Fire" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -488,6 +495,9 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jquery/jquery源码分析/jquery源码笔记.md">
+      <provider editor-type-id="MarkdownFxPreviewEditor">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
         <state split_layout="FIRST">
           <first_editor vertical-scroll-proportion="0.0">
@@ -496,9 +506,6 @@
           </first_editor>
           <second_editor />
         </state>
-      </provider>
-      <provider editor-type-id="MarkdownFxPreviewEditor">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jquery/jquery源码分析/jQuery_frame_3.0.js">
@@ -537,11 +544,11 @@
             <element signature="e#19082#19216#0" expanded="false" />
             <element signature="e#19273#19318#0" expanded="false" />
             <element signature="e#19614#20717#0" expanded="false" />
-            <element signature="e#144699#146032#0" expanded="false" />
-            <element signature="e#146083#146488#0" expanded="false" />
-            <element signature="e#146535#147794#0" expanded="false" />
-            <element signature="e#147848#149438#0" expanded="false" />
-            <element signature="e#155652#157258#0" expanded="false" />
+            <element signature="e#146687#148020#0" expanded="false" />
+            <element signature="e#148071#148476#0" expanded="false" />
+            <element signature="e#148523#149782#0" expanded="false" />
+            <element signature="e#149836#151426#0" expanded="false" />
+            <element signature="e#157640#159246#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -637,6 +644,9 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jquery/jquery源码分析/jquery源码笔记.md">
+      <provider editor-type-id="MarkdownFxPreviewEditor">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
         <state split_layout="FIRST">
           <first_editor vertical-scroll-proportion="0.0">
@@ -645,9 +655,6 @@
           </first_editor>
           <second_editor />
         </state>
-      </provider>
-      <provider editor-type-id="MarkdownFxPreviewEditor">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jquery/jquery源码分析/jQuery_frame_3.0.js">
@@ -686,11 +693,11 @@
             <element signature="e#19082#19216#0" expanded="false" />
             <element signature="e#19273#19318#0" expanded="false" />
             <element signature="e#19614#20717#0" expanded="false" />
-            <element signature="e#144699#146032#0" expanded="false" />
-            <element signature="e#146083#146488#0" expanded="false" />
-            <element signature="e#146535#147794#0" expanded="false" />
-            <element signature="e#147848#149438#0" expanded="false" />
-            <element signature="e#155652#157258#0" expanded="false" />
+            <element signature="e#146687#148020#0" expanded="false" />
+            <element signature="e#148071#148476#0" expanded="false" />
+            <element signature="e#148523#149782#0" expanded="false" />
+            <element signature="e#149836#151426#0" expanded="false" />
+            <element signature="e#157640#159246#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -778,6 +785,9 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jquery/jquery源码分析/jquery源码笔记.md">
+      <provider editor-type-id="MarkdownFxPreviewEditor">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
         <state split_layout="FIRST">
           <first_editor vertical-scroll-proportion="0.0">
@@ -786,9 +796,6 @@
           </first_editor>
           <second_editor />
         </state>
-      </provider>
-      <provider editor-type-id="MarkdownFxPreviewEditor">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jquery/jquery源码分析/jQuery_frame_3.0.js">
@@ -827,11 +834,11 @@
             <element signature="e#19082#19216#0" expanded="false" />
             <element signature="e#19273#19318#0" expanded="false" />
             <element signature="e#19614#20717#0" expanded="false" />
-            <element signature="e#144699#146032#0" expanded="false" />
-            <element signature="e#146083#146488#0" expanded="false" />
-            <element signature="e#146535#147794#0" expanded="false" />
-            <element signature="e#147848#149438#0" expanded="false" />
-            <element signature="e#155652#157258#0" expanded="false" />
+            <element signature="e#146687#148020#0" expanded="false" />
+            <element signature="e#148071#148476#0" expanded="false" />
+            <element signature="e#148523#149782#0" expanded="false" />
+            <element signature="e#149836#151426#0" expanded="false" />
+            <element signature="e#157640#159246#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -919,6 +926,9 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jquery/jquery源码分析/jquery源码笔记.md">
+      <provider editor-type-id="MarkdownFxPreviewEditor">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
         <state split_layout="FIRST">
           <first_editor vertical-scroll-proportion="0.0">
@@ -927,9 +937,6 @@
           </first_editor>
           <second_editor />
         </state>
-      </provider>
-      <provider editor-type-id="MarkdownFxPreviewEditor">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jquery/jquery源码分析/jQuery_frame_3.0.js">
@@ -968,11 +975,11 @@
             <element signature="e#19082#19216#0" expanded="false" />
             <element signature="e#19273#19318#0" expanded="false" />
             <element signature="e#19614#20717#0" expanded="false" />
-            <element signature="e#144699#146032#0" expanded="false" />
-            <element signature="e#146083#146488#0" expanded="false" />
-            <element signature="e#146535#147794#0" expanded="false" />
-            <element signature="e#147848#149438#0" expanded="false" />
-            <element signature="e#155652#157258#0" expanded="false" />
+            <element signature="e#146687#148020#0" expanded="false" />
+            <element signature="e#148071#148476#0" expanded="false" />
+            <element signature="e#148523#149782#0" expanded="false" />
+            <element signature="e#149836#151426#0" expanded="false" />
+            <element signature="e#157640#159246#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1332,15 +1339,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jquery/jquery源码分析/jquery源码笔记.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
-        <state split_layout="FIRST">
-          <first_editor vertical-scroll-proportion="0.0">
-            <caret line="47" column="28" selection-start-line="47" selection-start-column="28" selection-end-line="47" selection-end-column="28" />
-            <folding />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="40" column="28" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="28" />
@@ -1350,21 +1348,30 @@
       <provider editor-type-id="MarkdownFxPreviewEditor">
         <state />
       </provider>
+      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
+        <state split_layout="FIRST">
+          <first_editor vertical-scroll-proportion="0.0">
+            <caret line="47" column="28" selection-start-line="47" selection-start-column="28" selection-end-line="47" selection-end-column="28" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jquery/jquery源码分析/jquery-2.0.3.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9137529">
-          <caret line="4227" column="28" selection-start-line="4227" selection-start-column="28" selection-end-line="4227" selection-end-column="28" />
+        <state vertical-scroll-proportion="0.4755245">
+          <caret line="8268" column="33" selection-start-line="8268" selection-start-column="33" selection-end-line="8268" selection-end-column="33" />
           <folding>
             <element signature="e#17485#17932#0" expanded="false" />
             <element signature="e#19082#19216#0" expanded="false" />
             <element signature="e#19273#19318#0" expanded="false" />
             <element signature="e#19614#20717#0" expanded="false" />
-            <element signature="e#144699#146032#0" expanded="false" />
-            <element signature="e#146083#146488#0" expanded="false" />
-            <element signature="e#146535#147794#0" expanded="false" />
-            <element signature="e#147848#149438#0" expanded="false" />
-            <element signature="e#155652#157258#0" expanded="false" />
+            <element signature="e#146687#148020#0" expanded="false" />
+            <element signature="e#148071#148476#0" expanded="false" />
+            <element signature="e#148523#149782#0" expanded="false" />
+            <element signature="e#149836#151426#0" expanded="false" />
+            <element signature="e#157640#159246#0" expanded="false" />
           </folding>
         </state>
       </provider>

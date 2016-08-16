@@ -3481,8 +3481,9 @@
         }
     });
 
-
+/********************************************功能检测 开始*****************************/
     jQuery.support = (function (support) {
+        //创建了一些页面元素对象，根据这些对象在不同浏览器下的某些特征来检测功能
         var input = document.createElement("input"),
             fragment = document.createDocumentFragment(),
             div = document.createElement("div"),
@@ -3490,6 +3491,8 @@
             opt = select.appendChild(document.createElement("option"));
 
         // Finish early in limited environments
+        // 这句话没什么必要，因为现代浏览器input.type都有值，默认为text
+        // 所以没有判断的必要
         if (!input.type) {
             return support;
         }
@@ -3498,35 +3501,42 @@
 
         // Support: Safari 5.1, iOS 5.1, Android 4.x, Android 2.3
         // Check the default checkbox/radio value ("" on old WebKit; "on" elsewhere)
+        // 第一个兼容性问题：复选框的兼容value值等不等于空，大部分浏览器默认值为“on”，只有老版本的webkit为空
         support.checkOn = input.value !== "";
 
         // Must access the parent to make an option select properly
         // Support: IE9, IE10
+        // 在chrome等其他浏览器里，下拉列表的第一项是默认选中的，但是在ie下却并非如此
         support.optSelected = opt.selected;
 
         // Will be defined later
+        // 这三个检测需要再DOM加载完再检测，在后续的DOM加载代码中会体现
         support.reliableMarginRight = true;
         support.boxSizingReliable = true;
         support.pixelPosition = false;
 
         // Make sure checked status is properly cloned
         // Support: IE9, IE10
+        // 复制出来的checkbox也是被选中的，ie9和ie10不支持，其他都支持
         input.checked = true;
         support.noCloneChecked = input.cloneNode(true).checked;
 
         // Make sure that the options inside disabled selects aren't marked as disabled
         // (WebKit marks them as disabled)
+        // 下拉菜单并禁止了，其选项是否被禁止，一般来说两者并无关联，只有非常老的webkit才有关联
         select.disabled = true;
         support.optDisabled = !opt.disabled;
 
         // Check if an input maintains its value after becoming a radio
         // Support: IE9, IE10
+        // 设了值之后，再改变Input的type，看值是否被改变，ie下会改变
         input = document.createElement("input");
         input.value = "t";
         input.type = "radio";
         support.radioValue = input.value === "t";
 
         // #11217 - WebKit loses check when the name is after the checked attribute
+        // webkit会失去check的值，当checked属性后面跟着name
         input.setAttribute("checked", "t");
         input.setAttribute("name", "t");
 
@@ -3534,12 +3544,17 @@
 
         // Support: Safari 5.1, Android 4.x, Android 2.3
         // old WebKit doesn't clone checked state correctly in fragments
+        // 老版本的webkit不会克隆fragments的checked状态
         support.checkClone = fragment.cloneNode(true).cloneNode(true).lastChild.checked;
 
         // Support: Firefox, Chrome, Safari
         // Beware of CSP restrictions (https://developer.mozilla.org/en/Security/CSP)
+        // 只有在ie下支持onfocusin的冒泡操作，其他浏览器不支持
         support.focusinBubbles = "onfocusin" in window;
 
+
+        // 设置了一个div的backgroundClip属性为content-box,克隆了该对象并将克隆对象的属性设为空
+        // 检查一下克隆之后原对象的属性是否为"",只有ie等于空
         div.style.backgroundClip = "content-box";
         div.cloneNode(true).style.backgroundClip = "";
         support.clearCloneStyle = div.style.backgroundClip === "content-box";
@@ -3548,51 +3563,79 @@
         jQuery(function () {
             var container, marginDiv,
             // Support: Firefox, Android 2.3 (Prefixed box-sizing versions).
+                // 设一堆css属性
                 divReset = "padding:0;margin:0;border:0;display:block;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box",
+                // 获取body元素
                 body = document.getElementsByTagName("body")[0];
 
+            // 如果body不存在，则直接返回
             if (!body) {
                 // Return for frameset docs that don't have a body
                 return;
             }
 
+            // 创建一个div
             container = document.createElement("div");
+            // 给Div设上属性，margin-top：1px；主要用在1.*的版本，这里可以不写。left:-9999px主要是让div在屏幕之外，不影响全局
             container.style.cssText = "border:0;width:0;height:0;position:absolute;top:0;left:-9999px;margin-top:1px";
 
             // Check box-sizing and margin behavior.
             body.appendChild(container).appendChild(div);
+            // 这句话还是针对1.*的版本
             div.innerHTML = "";
             // Support: Firefox, Android 2.3 (Prefixed box-sizing versions).
+            // 改了div的属性,改了box-sizing的值
             div.style.cssText = "-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;padding:1px;border:1px;display:block;width:4px;margin-top:1%;position:absolute;top:1%";
 
             // Workaround failing boxSizing test due to offsetWidth returning wrong value
             // with some non-1 values of body zoom, ticket #13543
+            // css转换的方法
+            // 首先判断一下body的zoom属性（页面放大的比例）是否为空，不为空时设为1
             jQuery.swap(body, body.style.zoom != null ? {zoom: 1} : {}, function () {
+                // boxsizing的值等于判断div.offsetWidth是否为4的结果，border-box模式下，offsetWidth就等于width，content-box模式下，offsetWidth等于width+padding+margin等
                 support.boxSizing = div.offsetWidth === 4;
             });
 
             // Use window.getComputedStyle because jsdom on node.js will break without it.
+            // nodejs环境下就不会有window.getComputedStyle了，所以只有在客户端环境下才会走if
             if (window.getComputedStyle) {
+                // pixelPosition这个值是通过判断div的top值是否为1%来决定的，是1%则返回false
+                // 只有safari返回1%,其他浏览器返回像素值
                 support.pixelPosition = ( window.getComputedStyle(div, null) || {} ).top !== "1%";
+                // 如果div的样式不存在，则返回width:4px
+                // 如果存在，在border-box模式下，判断width是否是4像素
+                // 只有ie下不是4像素，它的值是width-padding的值，结果为3像素
                 support.boxSizingReliable = ( window.getComputedStyle(div, null) || {width: "4px"} ).width === "4px";
 
                 // Support: Android 2.3
                 // Check if div with explicit width and no margin-right incorrectly
                 // gets computed margin-right based on width of container. (#3333)
                 // WebKit Bug 13343 - getComputedStyle returns wrong value for margin-right
+
+                // 创建一个div并加到现有的div中
                 marginDiv = div.appendChild(document.createElement("div"));
+                // 将之前的divReset设到marginDiv和div上
                 marginDiv.style.cssText = div.style.cssText = divReset;
+                // 将marginDiv的marginRight,width的值设为0
                 marginDiv.style.marginRight = marginDiv.style.width = "0";
+                // div的width设为1px
                 div.style.width = "1px";
+                //检测值:MarginRight是否等于0，将marginRight的值转成数字，结果为0，取反后为真
+                // 经检测，现代浏览器都为0，只有在老版本的webkit下才不为0
 
                 support.reliableMarginRight = !parseFloat(( window.getComputedStyle(marginDiv, null) || {} ).marginRight);
             }
 
+            // 最后将div删除
             body.removeChild(container);
         });
 
         return support;
     })({});
+
+
+
+    /********************************************功能检测 结束*****************************/
 
     /*Data Start*/
 
@@ -8222,7 +8265,10 @@
         });
     }
 
+    // 各浏览器针对ajax的支持情况
+    // cors是检测支不支持跨域，各大现代浏览器ie9不支持
     jQuery.support.cors = !!xhrSupported && ( "withCredentials" in xhrSupported );
+    // ajax是检测支不支持ajax，一般浏览器都支持
     jQuery.support.ajax = xhrSupported = !!xhrSupported;
 
     jQuery.ajaxTransport(function (options) {
