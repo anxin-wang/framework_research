@@ -4280,6 +4280,9 @@
             return defer.promise(obj);
         }
     });
+
+
+/**************** 对元素属性的操作 *****************/
     var nodeHook, boolHook,
         rclass = /[\t\r\n\f]/g,
         rreturn = /\r/g,
@@ -4574,22 +4577,28 @@
 
         attr: function (elem, name, value) {
             var hooks, ret,
+                // 获取元素的nodetype
                 nType = elem.nodeType;
 
             // don't get/set attributes on text, comment and attribute nodes
+            // 如果元素不存在，或者元素节点类型为文本，注释和属性
             if (!elem || nType === 3 || nType === 8 || nType === 2) {
                 return;
             }
 
             // Fallback to prop when attributes are not supported
+            // 如果元素的getAttribute方法不存在，就返回prop方法的返回值
             if (typeof elem.getAttribute === core_strundefined) {
                 return jQuery.prop(elem, name, value);
             }
 
             // All attributes are lowercase
             // Grab necessary hook if one is defined
+            // 如果元素节点类型不为1且元素不是XML文档的节点
             if (nType !== 1 || !jQuery.isXMLDoc(elem)) {
+                // name变小写
                 name = name.toLowerCase();
+                //
                 hooks = jQuery.attrHooks[name] ||
                     ( jQuery.expr.match.bool.test(name) ? boolHook : nodeHook );
             }
