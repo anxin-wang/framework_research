@@ -3637,7 +3637,7 @@
 
     /********************************************功能检测 结束*****************************/
 
-    /*Data Start*/
+    /***************************************Data Start***************************************/
 
     /*
      Implementation Summary
@@ -3650,12 +3650,13 @@
      5. Avoid exposing implementation details on user objects (eg. expando properties)
      6. Provide a clear path for implementation upgrade to WeakMap in 2014
      */
+    //定义两个变量，都是Data对象，一个内部使用，一个外部使用
     var data_user, data_priv,
         //两个正则表达式
         rbrace = /(?:\{[\s\S]*\}|\[[\s\S]*\])$/,
         rmultiDash = /([A-Z])/g;
 
-    //
+    //Data类
     function Data() {
         // Support: Android < 4,
         // Old WebKit does not have Object.preventExtensions/freeze method,
@@ -3668,7 +3669,6 @@
         });
 
         //设值this.expando值
-
         this.expando = jQuery.expando + Math.random();
     }
     // uid是this.cache的数组下标，从1开始
@@ -4070,6 +4070,9 @@
         return data;
     }
 
+
+
+
     jQuery.extend({
         queue: function (elem, type, data) {
             var queue;
@@ -4284,6 +4287,7 @@
 
 /**************** 对元素属性的操作 *****************/
     var nodeHook, boolHook,
+    //定义了三个正则表达式
         rclass = /[\t\r\n\f]/g,
         rreturn = /\r/g,
         rfocusable = /^(?:input|select|textarea|button)$/i;
@@ -4594,32 +4598,54 @@
 
             // All attributes are lowercase
             // Grab necessary hook if one is defined
-            // 如果元素节点类型不为1且元素不是XML文档的节点
+            // 如果元素节点类型不为1或者类型为1但元素不是XML文档的节点
+            // 类型为1的节点是元素节点
+            // jQuery.isXMLDoc就等于Sizzle.isXML
             if (nType !== 1 || !jQuery.isXMLDoc(elem)) {
                 // name变小写
                 name = name.toLowerCase();
-                //
+                // 通过attrHooks获取hooks,目前attrHooks只有type的set，所以当name=type时，会返回hooks
+                // attrHooks是为了解决兼容性的一个机制，所以意思是只有type的set方法需要兼容
+                // 具体看方法内部，是为了解决support.radioValue这个兼容性的问题
+                // 如果没有attrHooks,则走后面一个三目运算符的判断
+                // jQuery.expr=Sizzle.selectors
+                // Sizzle.selectors中match: matchExpr,
+                // "bool": new RegExp("^(?:" + booleans + ")$", "i"),是一个正则表达式
+                // booleans = "checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped",
+                // nodeHook就是undefined
+                // boolHook就是下面定义的解决bool值的兼容性解决方法,主要就是把类似attr('checked',true)改成attr('checked','checked')
+
                 hooks = jQuery.attrHooks[name] ||
                     ( jQuery.expr.match.bool.test(name) ? boolHook : nodeHook );
             }
 
+            //首先value不等于undefined，意味第二个参数存在，则为设值
             if (value !== undefined) {
-
+                // 如果第二个参数穿的是null
                 if (value === null) {
+                    // 会直接把这个属性给移除
                     jQuery.removeAttr(elem, name);
 
+                    //首先hook存在，并且set在hooks中存在，且通过hooks的set方法返回的值不为undefined
                 } else if (hooks && "set" in hooks && (ret = hooks.set(elem, value, name)) !== undefined) {
                     return ret;
 
+                    //最后，调用elem的setAttribute方法（原生js),并将name,value传入，其中value转为字符串
                 } else {
                     elem.setAttribute(name, value + "");
                     return value;
                 }
 
-            } else if (hooks && "get" in hooks && (ret = hooks.get(elem, name)) !== null) {
+
+            }
+            //value等于undefined的情况，意味获取值
+            // 首先hook存在，并且get在hooks中存在，且通过hooks的get方法返回的值不为undefined
+            else if (hooks && "get" in hooks && (ret = hooks.get(elem, name)) !== null) {
                 return ret;
 
             } else {
+                // jQuery.find.attr是sizzle当中的方法，查找elem的attr为name的属性值
+                // jQuery.find等于Sizzle这个对象
                 ret = jQuery.find.attr(elem, name);
 
                 // Non-existent attributes return null, we normalize to undefined
@@ -4632,6 +4658,7 @@
         removeAttr: function (elem, value) {
             var name, propName,
                 i = 0,
+                // attrNames等于value
                 attrNames = value && value.match(core_rnotwhite);
 
             if (attrNames && elem.nodeType === 1) {
@@ -4652,9 +4679,16 @@
         attrHooks: {
             type: {
                 set: function (elem, value) {
+                    // jQuery.support.radioValue是ie下才会有的问题，首先radioValue为false
+                    // 第二value为radio
+                    // 第三nodeName为input
+                    // 以上保证有兼容性的问题的类型为radio的input框
                     if (!jQuery.support.radioValue && value === "radio" && jQuery.nodeName(elem, "input")) {
                         // Setting the type on a radio button after the value resets the value in IE6-9
                         // Reset value to default in case type is set after value during creation
+
+                        // 具体操作是先把值保留下来，再去设置类型，再去设置值，最后将值返回
+                        // 这样就避免了当初的问题：先设值，再设类型，最后在ie下值不能保留
                         var val = elem.value;
                         elem.setAttribute("type", value);
                         if (val) {
@@ -4714,12 +4748,16 @@
 // Hooks for boolean attributes
     boolHook = {
         set: function (elem, value, name) {
+            // 如果value为false,说明是移除值
             if (value === false) {
                 // Remove boolean attributes when set to false
+                // 将elem的该属性值移除
                 jQuery.removeAttr(elem, name);
             } else {
+                // 否则将value值设为name
                 elem.setAttribute(name, name);
             }
+            // 返回name
             return name;
         }
     };
