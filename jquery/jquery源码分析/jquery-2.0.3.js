@@ -50,6 +50,7 @@
         core_version = "2.0.3",
 
     // Save a reference to some core methods
+        //提取数组，object，字符串的一些常用方法
         core_concat = core_deletedIds.concat,
         core_push = core_deletedIds.push,
         core_slice = core_deletedIds.slice,
@@ -74,16 +75,21 @@
     // A simple way to check for HTML strings
     // Prioritize #id over <tag> to avoid XSS via location.hash (#9521)
     // Strict HTML recognition (#11290: must start with <)
+        //html识别
         rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/,
 
     // Match a standalone tag
+        //匹配单个标签
         rsingleTag = /^<(\w+)\s*\/?>(?:<\/\1>|)$/,
 
     // Matches dashed string for camelizing
+        //匹配-ms-前缀
         rmsPrefix = /^-ms-/,
+        //匹配“-字母”
         rdashAlpha = /-([\da-z])/gi,
 
     // Used by jQuery.camelCase as callback to replace()
+        // 返回字符串的大写形式
         fcamelCase = function (all, letter) {
             return letter.toUpperCase();
         },
