@@ -214,11 +214,14 @@ str.slice(-3, -1); // returns 'us'
 str.slice(0, -1);  // returns 'The morning is upon us'
 
 
-//--------------------------------查找替换字符串-------------------------------
+//--------------------------------正则查找替换字符串-------------------------------
 /*
  String.prototype.match(regexp)
+ 返回值：An Array containing the entire match result and any parentheses-captured matched results; null if there were no matches.
  String.prototype.search(regexp)
+ 返回值：The index of the first match between the regular expression and the given string; if not found, -1.
  String.prototype.replace(regexp|substr, newSubStr|function)
+ 返回值：A new string with some or all matches of a pattern replaced by a replacement.
  */
 //match(regexp)
 var str = 'For more information, see Chapter 3.4.5.1';
@@ -246,6 +249,10 @@ console.log(matches_array);
 var str = "Nothing will come of nothing.";
 str.match();   // returns [""]
 
+/*
+ When the parameter is a string or a number, it is implicitly converted to a RegExp by using new RegExp(obj).
+ If it is a positive number with a positive sign,the RegExp() method will ignore the positive sign.
+ */
 var str1 = "NaN means not a number. Infinity contains -Infinity and +Infinity in JavaScript.",
     str2 = "My grandfather is 65 years old and My grandmother is 63 years old.",
     str3 = "The contract was declared null and void.";
@@ -260,34 +267,41 @@ str3.match(null);       // returns ["null"]
 
 
 //replace
+//Example 1 : 替换函数
 function replacer(match, p1, p2, p3, offset, string) {
     // p1 is nondigits, p2 digits, and p3 non-alphanumerics
     return [p1, p2, p3].join(' - ');
 }
-var newString = 'abc12345#$*%'.replace(/([^\d]*)(\d*)([^\w]*)/, replacer);
+var newString = 'abc12345#$*%'.replace(/([^\d]*)(\d*)([^\w]*)/, replacer);//'abc - 12345 - #$*%'
 
+//Example 2
 var str = 'Twas the night before Xmas...';
 var newstr = str.replace(/xmas/i, 'Christmas');
 console.log(newstr);  // Twas the night before Christmas...
 
+//Example 3
 var re = /apples/gi;
 var str = 'Apples are round, and apples are juicy.';
 var newstr = str.replace(re, 'oranges');
 console.log(newstr);  // oranges are round, and oranges are juicy.
 
+//Example 4
 var re = /(\w+)\s(\w+)/;
 var str = 'John Smith';
 var newstr = str.replace(re, '$2, $1');
 console.log(newstr);  // Smith, John
 
+//Example 5
 function styleHyphenFormat(propertyName) {
     function upperToHyphenLower(match) {
         return '-' + match.toLowerCase();
     }
     return propertyName.replace(/[A-Z]/g, upperToHyphenLower);
 }
+styleHyphenFormat('borderTop');//this returns 'border-top'.
 var newString = propertyName.replace(/[A-Z]/g, '-' + '$&'.toLowerCase());  // won't work
 
+//Example 6
 function f2c(x) {
     function convert(str, p1, offset, s) {
         return ((p1 - 32) * 5/9) + 'C';
@@ -297,6 +311,7 @@ function f2c(x) {
     return s.replace(test, convert);
 }
 
+//Example 7
 var str = 'x-x_';
 var retArr = [];
 str.replace(/(x_*)|(-)/g, function(match, p1, p2) {
@@ -304,6 +319,7 @@ str.replace(/(x_*)|(-)/g, function(match, p1, p2) {
     if (p2) { retArr.push({ on: false, length: 1 }); }
 });
 console.log(retArr);
+
 
 //search
 function testinput(re, str) {
