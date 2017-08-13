@@ -1,47 +1,47 @@
 var fruits = ["Apple", "Banana"];
-console.log(fruits.length);  //获取数组的长度
-var first = fruits[0];  //获取第一个元素
-var last = fruits[fruits.length - 1];   //获取最后一个元素
-//迭代元素
+console.log(fruits.length);  //��ȡ����ĳ���
+var first = fruits[0];  //��ȡ��һ��Ԫ��
+var last = fruits[fruits.length - 1];   //��ȡ���һ��Ԫ��
+//����Ԫ��
 fruits.forEach(function (item, index, array) {
     console.log(item, index);
 });
-//Array.prototype,给Array对象增加方法
+//Array.prototype,��Array�������ӷ���
 if (!Array.prototype.first) {
     Array.prototype.first = function() {
         return this[0];
     }
 }
-//返回Array的构造器
+//����Array�Ĺ�����
 Array[Symbol.species]; // function Array()
-//将子类的构造器定义为Array
+//������Ĺ���������ΪArray
 class MyArray extends Array {
     static get [Symbol.species]() { return Array; }
 }
 
 
 
-//--------------------------------------------------创建array----------------------------------------
+//--------------------------------------------------����array----------------------------------------
 //1.Array.from(arrayLike[, mapFn[, thisArg]])
 /*
- 参数：
- arrayLike:一个类数组(objects with a length property and indexed elements)或者可迭代对象(objects where you can get its elements, such as Map and Set)
- mapFn：Array.from(obj, mapFn, thisArg) has the same result as Array.from(obj).map(mapFn, thisArg)
+ ������
+ arrayLike:һ��������(objects with a length property and indexed elements)���߿ɵ�������(objects where you can get its elements, such as Map and Set)
+ mapFn��Array.from(obj, mapFn, thisArg) has the same result as Array.from(obj).map(mapFn, thisArg)
  */
-//从元素中创建数组
+//��Ԫ���д�������
 console.log(Array.from("foo"));
-//从Set中创建数组
+//��Set�д�������
 var s = new Set(["foo", window]);
 Array.from(s);
-//从Map中创建数组
+//��Map�д�������
 var m = new Map([[1, 2], [2, 4], [4, 8]]);
 Array.from(m);// [[1, 2], [2, 4], [4, 8]]
-//从一个arraylike对象中创建数组
+//��һ��arraylike�����д�������
 function f() {
     return Array.from(arguments);
 }
 f(1, 2, 3);// [1, 2, 3]
-//使用第二个参数map函数
+//ʹ�õڶ�������map����
 Array.from([1, 2, 3], x => x + x);// [2, 4, 6]
 Array.from({length: 5}, (v, k) => k);// [0, 1, 2, 3, 4]
 
@@ -49,13 +49,13 @@ Array.from({length: 5}, (v, k) => k);// [0, 1, 2, 3, 4]
 //2.Array.of(element0[, element1[, ...[, elementN]]])
 Array.of(7);       // [7]
 Array.of(1, 2, 3); // [1, 2, 3]
-//与Array(num)的区别：
+//��Array(num)������
 Array(7);          // [ , , , , , , ]
 Array(1, 2, 3);    // [1, 2, 3]
 
 
-//------------------------------------------判断Array对象-----------------------
-// 方法名:Array.isArray(obj)
+//------------------------------------------�ж�Array����-----------------------
+// ������:Array.isArray(obj)
 // all following calls return true
 Array.isArray([]);
 Array.isArray([1]);
@@ -76,12 +76,12 @@ Array.isArray({ __proto__: Array.prototype });
 
 
 
-//---------------------------------------对数组进行修改--------------------------
+//---------------------------------------����������޸�--------------------------
 /*
-1.用数组中的值覆盖指定位置的值
+1.�������е�ֵ����ָ��λ�õ�ֵ
 arr.copyWithin(target)
 arr.copyWithin(target, start)
-arr.copyWithin(target, start, end[不包含末尾])
+arr.copyWithin(target, start, end[������ĩβ])
 */
 [1, 2, 3, 4, 5].copyWithin(-2);// [1, 2, 3, 1, 2]
 [1, 2, 3, 4, 5].copyWithin(0, 3);// [4, 5, 3, 4, 5]
@@ -97,7 +97,7 @@ i32a.copyWithin(0, 2);// Int32Array [3, 4, 5, 4, 5]
 [].copyWithin.call(new Int32Array([1, 2, 3, 4, 5]), 0, 3, 4);// Int32Array [4, 2, 3, 4, 5]
 
 /*
-2.用单一值填充数组
+2.�õ�һֵ�������
  arr.fill(value)
  arr.fill(value, start)
  arr.fill(value, start, end)
@@ -113,8 +113,8 @@ numbers.fill(1);// results in [1, 1, 1]
 Array(3).fill(4);                // [4, 4, 4]
 [].fill.call({ length: 3 }, 4);  // {0: 4, 1: 4, 2: 4, length: 3}
 
-/*3.增加删除：pop,push,shift,unshift,splice*/
-//(1).移除
+/*3.����ɾ����pop,push,shift,unshift,splice*/
+//(1).�Ƴ�
 //pop
 var myFish = ['angel', 'clown', 'mandarin', 'sturgeon'];
 var popped = myFish.pop();
@@ -126,18 +126,18 @@ console.log('myFish after: ' + myFish);
 // "myFish after: clown,mandarin,surgeon"
 console.log('Removed this element: ' + shifted);
 // "Removed this element: angel"
-//(2).增加
+//(2).����
 //push
 var sports = ['soccer', 'baseball'];
 var total = sports.push('football', 'swimming');
 console.log(sports); // ['soccer', 'baseball', 'football', 'swimming']
 console.log(total);  // 4
-//用push模拟Merge
+//��pushģ��Merge
 var vegetables = ['parsnip', 'potato'];
 var moreVegs = ['celery', 'beetroot'];
 Array.prototype.push.apply(vegetables, moreVegs);
 console.log(vegetables); // ['parsnip', 'potato', 'celery', 'beetroot']
-//使用arrayLike对象来模拟数组
+//ʹ��arrayLike������ģ������
 var obj = {
     length: 0,
     addElem: function addElem (elem) {
@@ -149,14 +149,14 @@ var obj = {
 // Let's add some empty objects just to illustrate.
 obj.addElem({});
 obj.addElem({});
-console.log(obj.length);// → 2
+console.log(obj.length);// �� 2
 
-//unshift，和push一样，都可以用call和apply方法作用于arrayLike对象
+//unshift����pushһ������������call��apply����������arrayLike����
 var arr = [1, 2];
 arr.unshift(0); // result of call is 3, the new array length, arr is [0, 1, 2]
 arr.unshift(-2, -1); // = 5, arr is [-2, -1, 0, 1, 2]
 arr.unshift([-3]);// arr is [[-3], -2, -1, 0, 1, 2]
-//(3).增加和移除
+//(3).���Ӻ��Ƴ�
 //splice
 /*
  array.splice(start)
@@ -170,12 +170,12 @@ var removed = myFish.splice(0, 2, "parrot", "anemone", "blue");
 // myFish is ["parrot", "anemone", "blue", "trumpet", "surgeon"]
 // removed is ["angel", "clown"]
 
-/*3.排序：sort；倒序：reverse */
+/*3.����sort������reverse */
 //sort
 /*
 arr.sort()
 arr.sort(compareFunction)
-参数compareFunction:Specifies a function that defines the sort order.
+����compareFunction:Specifies a function that defines the sort order.
 If omitted, the array is sorted according to each character's Unicode code point value, according to the string conversion of each element.
 If compareFunction is supplied, the array elements are sorted according to the return value of the compare function. If a and b are two elements being compared, then:
 1.If compareFunction(a, b) is less than 0, sort a to a lower index than b, i.e. a comes first.
@@ -251,7 +251,7 @@ console.log('mixedNumericArray:', mixedNumericArray.join());
 console.log('Sorted without a compare function:', mixedNumericArray.sort());
 console.log('Sorted with compareNumbers:', mixedNumericArray.sort(compareNumbers));
 
-/*输出：
+/*�����
  stringArray: Blue,Humpback,Beluga
  Sorted: Beluga,Blue,Humpback
 
@@ -268,7 +268,7 @@ console.log('Sorted with compareNumbers:', mixedNumericArray.sort(compareNumbers
  Sorted with compareNumbers: 1,5,9,40,80,200,700
 * */
 
-//使用map来sort
+//ʹ��map��sort
 // the array to be sorted
 var list = ['Delta', 'alpha', 'CHARLIE', 'bravo'];
 
@@ -288,23 +288,23 @@ var result = mapped.map(function(el){
 });
 
 //reverse
-//reverse比sort简单得多，没有参数，只是将原数组的顺序倒过来排列，就不举例了。
+//reverse��sort�򵥵ö࣬û�в�����ֻ�ǽ�ԭ�����˳�򵹹������У��Ͳ������ˡ�
 
 
-//--------------------------------------------------存取器方法------------------------------------------
-/*功能:
-  1.查找元素的下标:indexOf(),lastIndexOf()
-  2.将array转成字符串：toString(),toLocaleString(),join()
-  3.数组的合并:concat()
-  4.数组的切片（提取子数组）：slice()
+//--------------------------------------------------��ȡ������------------------------------------------
+/*����:
+  1.����Ԫ�ص��±�:indexOf(),lastIndexOf()
+  2.��arrayת���ַ�����toString(),toLocaleString(),join()
+  3.����ĺϲ�:concat()
+  4.�������Ƭ����ȡ�����飩��slice()
   */
 
 
-//--------------------------------------------------迭代方法------------------------------------------
-/*功能:
- 1.迭代并进行回调函数的操作，流水线操作:forEach()，map()
- 2.迭代测试数组元素是否符合回调函数的条件：every(),some(),filter(),find(),findIndex()
- 3.将数组计算出一个终值:reduce(),reduceRight()
- 4.数组迭代器：entries(),keys(),values(),arr[Symbol.iterator]()
+//--------------------------------------------------��������------------------------------------------
+/*����:
+ 1.���������лص������Ĳ�������ˮ�߲���:forEach()��map()
+ 2.������������Ԫ���Ƿ���ϻص�������������every(),some(),filter(),find(),findIndex()
+ 3.����������һ����ֵ:reduce(),reduceRight()
+ 4.�����������entries(),keys(),values(),arr[Symbol.iterator]()
  */
 

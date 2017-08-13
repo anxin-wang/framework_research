@@ -73,6 +73,7 @@ arguments既然是类数组，那么它的类型是object。
 
 
 没有任何参数的情况，Rest参数
+
 	function foo(...args) {
   		return arguments;
 	}
@@ -81,6 +82,7 @@ arguments既然是类数组，那么它的类型是object。
 
 
  形参设置默认值和不设置的情况
+ 
 	function bar(a=1) { 
   		arguments[0] = 100;
   		return a;
@@ -178,6 +180,7 @@ arguments既然是类数组，那么它的类型是object。
 
 
 rest参数的遍历，相当于array的遍历
+
 	function multiply(multiplier, ...theArgs) {
   		return theArgs.map(function (element) {
     		return multiplier * element;
@@ -190,6 +193,7 @@ rest参数的遍历，相当于array的遍历
 
 
 这个例子说明了rest参数是真正的array对象，可以使用array的方法，而arguments不是array对象，不可以使用array的方法。除非将arguments先转换成array对象。
+
 	function sortRestArgs(...theArgs) {
   		var sortedArgs = theArgs.sort();
   		return sortedArgs;
@@ -229,6 +233,7 @@ rest参数的遍历，相当于array的遍历
 
 
 每次调用都是新建一份函数
+
 	function append(value, array = []) {
   		array.push(value);
   		return array;
@@ -240,6 +245,7 @@ rest参数的遍历，相当于array的遍历
 
 
 默认参数为函数
+
 	function callSomething(thing = something()) { return thing }
 
 	function something(){
@@ -254,6 +260,7 @@ rest参数的遍历，相当于array的遍历
 
 
 默认参数可以使用前面的参数，可以进行计算
+
 	function singularAutoPlural(singular, plural = singular+"s", rallyingCry = plural + " ATTACK!!!") {
   		return [singular, plural, rallyingCry ]; 
 	}
@@ -365,6 +372,7 @@ rest参数的遍历，相当于array的遍历
 	({a, b, ...rest} = {a:1, b:2, c:3, d:4});
 
 **基本使用**
+
 <pre><code>
 var foo = ["one", "two", "three"];
 
