@@ -1,12 +1,14 @@
 var fruits = ["Apple", "Banana"];
-console.log(fruits.length);  //��ȡ����ĳ���
-var first = fruits[0];  //��ȡ��һ��Ԫ��
-var last = fruits[fruits.length - 1];   //��ȡ���һ��Ԫ��
-//����Ԫ��
+console.log(fruits.length);  //数组长度
+var first = fruits[0];  //获取数组第一个元素
+var last = fruits[fruits.length - 1];   //获取数组最后一个元素
+
+//迭代数组
 fruits.forEach(function (item, index, array) {
     console.log(item, index);
 });
-//Array.prototype,��Array�������ӷ���
+
+//创建first方法
 if (!Array.prototype.first) {
     Array.prototype.first = function() {
         return this[0];
@@ -21,27 +23,27 @@ class MyArray extends Array {
 
 
 
-//--------------------------------------------------����array----------------------------------------
+//--------------------------------------------------array----------------------------------------
 //1.Array.from(arrayLike[, mapFn[, thisArg]])
 /*
- ������
- arrayLike:һ��������(objects with a length property and indexed elements)���߿ɵ�������(objects where you can get its elements, such as Map and Set)
- mapFn��Array.from(obj, mapFn, thisArg) has the same result as Array.from(obj).map(mapFn, thisArg)
+ 参数
+ arrayLike:类数组(objects with a length property and indexed elements)或者可迭代对象(objects where you can get its elements, such as Map and Set)
+ mapFn：映射函数。Array.from(obj, mapFn, thisArg) has the same result as Array.from(obj).map(mapFn, thisArg)
  */
-//��Ԫ���д�������
+
 console.log(Array.from("foo"));
-//��Set�д�������
+//Demo 2：
 var s = new Set(["foo", window]);
 Array.from(s);
-//��Map�д�������
+//Demo 3：
 var m = new Map([[1, 2], [2, 4], [4, 8]]);
 Array.from(m);// [[1, 2], [2, 4], [4, 8]]
-//��һ��arraylike�����д�������
+//Demo 4：
 function f() {
     return Array.from(arguments);
 }
 f(1, 2, 3);// [1, 2, 3]
-//ʹ�õڶ�������map����
+//Demo 5：
 Array.from([1, 2, 3], x => x + x);// [2, 4, 6]
 Array.from({length: 5}, (v, k) => k);// [0, 1, 2, 3, 4]
 
@@ -49,13 +51,12 @@ Array.from({length: 5}, (v, k) => k);// [0, 1, 2, 3, 4]
 //2.Array.of(element0[, element1[, ...[, elementN]]])
 Array.of(7);       // [7]
 Array.of(1, 2, 3); // [1, 2, 3]
-//��Array(num)������
+//区别于Array(num)
 Array(7);          // [ , , , , , , ]
 Array(1, 2, 3);    // [1, 2, 3]
 
 
-//------------------------------------------�ж�Array����-----------------------
-// ������:Array.isArray(obj)
+// 3.Array.isArray(obj) 对象是否是Array
 // all following calls return true
 Array.isArray([]);
 Array.isArray([1]);
@@ -76,12 +77,11 @@ Array.isArray({ __proto__: Array.prototype });
 
 
 
-//---------------------------------------����������޸�--------------------------
+//-----------------------------------------修改器-------------------------------------------
 /*
-1.�������е�ֵ����ָ��λ�õ�ֵ
-arr.copyWithin(target)
+1.arr.copyWithin(target)
 arr.copyWithin(target, start)
-arr.copyWithin(target, start, end[������ĩβ])
+arr.copyWithin(target, start, end[不包括])
 */
 [1, 2, 3, 4, 5].copyWithin(-2);// [1, 2, 3, 1, 2]
 [1, 2, 3, 4, 5].copyWithin(0, 3);// [4, 5, 3, 4, 5]
@@ -97,7 +97,7 @@ i32a.copyWithin(0, 2);// Int32Array [3, 4, 5, 4, 5]
 [].copyWithin.call(new Int32Array([1, 2, 3, 4, 5]), 0, 3, 4);// Int32Array [4, 2, 3, 4, 5]
 
 /*
-2.�õ�һֵ�������
+2.填充数组
  arr.fill(value)
  arr.fill(value, start)
  arr.fill(value, start, end)
@@ -113,31 +113,32 @@ numbers.fill(1);// results in [1, 1, 1]
 Array(3).fill(4);                // [4, 4, 4]
 [].fill.call({ length: 3 }, 4);  // {0: 4, 1: 4, 2: 4, length: 3}
 
-/*3.����ɾ����pop,push,shift,unshift,splice*/
-//(1).�Ƴ�
-//pop
+/*3.pop,push,shift,unshift,splice*/
+
+// pop
 var myFish = ['angel', 'clown', 'mandarin', 'sturgeon'];
 var popped = myFish.pop();
 console.log(myFish); // ['angel', 'clown', 'mandarin' ]
 console.log(popped); // 'sturgeon'
+
 //shift
 var shifted = myFish.shift();
 console.log('myFish after: ' + myFish);
 // "myFish after: clown,mandarin,surgeon"
 console.log('Removed this element: ' + shifted);
 // "Removed this element: angel"
-//(2).����
+
 //push
 var sports = ['soccer', 'baseball'];
 var total = sports.push('football', 'swimming');
 console.log(sports); // ['soccer', 'baseball', 'football', 'swimming']
 console.log(total);  // 4
-//��pushģ��Merge
+//push & Merge
 var vegetables = ['parsnip', 'potato'];
 var moreVegs = ['celery', 'beetroot'];
 Array.prototype.push.apply(vegetables, moreVegs);
 console.log(vegetables); // ['parsnip', 'potato', 'celery', 'beetroot']
-//ʹ��arrayLike������ģ������
+//arrayLike对象增加类似push的方法
 var obj = {
     length: 0,
     addElem: function addElem (elem) {
@@ -149,14 +150,14 @@ var obj = {
 // Let's add some empty objects just to illustrate.
 obj.addElem({});
 obj.addElem({});
-console.log(obj.length);// �� 2
+console.log(obj.length);// 2
 
-//unshift����pushһ������������call��apply����������arrayLike����
+//unshift
 var arr = [1, 2];
 arr.unshift(0); // result of call is 3, the new array length, arr is [0, 1, 2]
 arr.unshift(-2, -1); // = 5, arr is [-2, -1, 0, 1, 2]
 arr.unshift([-3]);// arr is [[-3], -2, -1, 0, 1, 2]
-//(3).���Ӻ��Ƴ�
+
 //splice
 /*
  array.splice(start)
@@ -170,12 +171,12 @@ var removed = myFish.splice(0, 2, "parrot", "anemone", "blue");
 // myFish is ["parrot", "anemone", "blue", "trumpet", "surgeon"]
 // removed is ["angel", "clown"]
 
-/*3.����sort������reverse */
+/*3.sort、reverse */
 //sort
 /*
 arr.sort()
 arr.sort(compareFunction)
-����compareFunction:Specifies a function that defines the sort order.
+compareFunction:Specifies a function that defines the sort order.
 If omitted, the array is sorted according to each character's Unicode code point value, according to the string conversion of each element.
 If compareFunction is supplied, the array elements are sorted according to the return value of the compare function. If a and b are two elements being compared, then:
 1.If compareFunction(a, b) is less than 0, sort a to a lower index than b, i.e. a comes first.
@@ -291,20 +292,22 @@ var result = mapped.map(function(el){
 //reverse��sort�򵥵ö࣬û�в�����ֻ�ǽ�ԭ�����˳�򵹹������У��Ͳ������ˡ�
 
 
-//--------------------------------------------------��ȡ������------------------------------------------
-/*����:
-  1.����Ԫ�ص��±�:indexOf(),lastIndexOf()
-  2.��arrayת���ַ�����toString(),toLocaleString(),join()
-  3.����ĺϲ�:concat()
-  4.�������Ƭ����ȡ�����飩��slice()
+//-----------------------------------------------存取---------------------------------------------
+/*方法:
+  1.获取元素的下标:indexOf(),lastIndexOf()
+  2.Array转字符串：toString(),toLocaleString(),join()
+  3.数据合并:concat()
+  4.获取子数组：slice()
   */
 
 
-//--------------------------------------------------��������------------------------------------------
-/*����:
- 1.���������лص������Ĳ�������ˮ�߲���:forEach()��map()
- 2.������������Ԫ���Ƿ���ϻص�������������every(),some(),filter(),find(),findIndex()
- 3.����������һ����ֵ:reduce(),reduceRight()
- 4.�����������entries(),keys(),values(),arr[Symbol.iterator]()
+//--------------------------------------------------迭代器------------------------------------------
+/*迭代:
+ 1.迭代:forEach(),map()
+ 2.数组元素全部符合or部分符合，返回true/false:every(),some(),
+ 3.过滤一部分出来：filter()
+ 4.查找，第一个符合的返回：find(),findIndex()
+ 5.进行运算：:reduce(),reduceRight()
+ 6.entries(),keys(),values(),arr[Symbol.iterator]()
  */
 

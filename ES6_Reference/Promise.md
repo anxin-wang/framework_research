@@ -610,3 +610,73 @@
     }, function(error) {
       console.log(error); // Stacktrace
     });
+    
+    
+### Promise的优点
+
+> 以前写异步函数
+
+    doSomething(function(result) {
+      doSomethingElse(result, function(newResult) {
+        doThirdThing(newResult, function(finalResult) {
+          console.log('Got the final result: ' + finalResult);
+        }, failureCallback);
+      }, failureCallback);
+    }, failureCallback);
+    
+> 现在
+
+    doSomething().then(function(result) {
+      return doSomethingElse(result);
+    })
+    .then(function(newResult) {
+      return doThirdThing(newResult);
+    })
+    .then(function(finalResult) {
+      console.log('Got the final result: ' + finalResult);
+    })
+    .catch(failureCallback);
+    
+> 箭头函数
+
+    doSomething()
+    .then(result => doSomethingElse(result))
+    .then(newResult => doThirdThing(newResult))
+    .then(finalResult => {
+      console.log(`Got the final result: ${finalResult}`);
+    })
+    .catch(failureCallback);
+    
+>在catch后面加一个then
+
+    new Promise((resolve, reject) => {
+        console.log('Initial');
+        resolve();
+    })
+    .then(() => {
+        throw new Error('Something failed');       
+        console.log('Do this');
+    })
+    .catch(() => {
+        console.log('Do that');
+    })
+    .then(() => {
+        console.log('Do this whatever happened before');
+    });
+    
+    Output:
+    Initial
+    Do that
+    Do this whatever happened before
+    
+改造旧API
+    
+    setTimeout(() => saySomething("10 seconds passed"), 10000);
+    
+    改成
+    
+    const wait = ms => new Promise((resolve,rejected) => setTimeout(() => resolve("Success! After 10 seconds"), ms));
+    function saySomething(msg) {
+        console.log(msg);
+    }
+    wait(10000).then((msg) => saySomething(msg)).catch(saySomething("failure"));

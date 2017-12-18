@@ -1,6 +1,5 @@
-# [Mozilla JavaScript Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference)
+# [Mozilla JavaScript Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference) - Function
 
-## Function
 ### arguments
 
 arguments是一个类数组对象，只有数组的长度属性length,没有数组的其他属性和方法，可以对其进行这样的访问：
