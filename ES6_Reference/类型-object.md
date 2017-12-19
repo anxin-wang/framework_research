@@ -75,6 +75,6 @@ var obj3 = { ["__prot" + "o__"]: 17 };
 assert(obj3.__proto__ === 17);
 </code></pre>
 
-####object字面量 VS JSON
+#### object字面量 VS JSON
 1. JSON主要是用于数据交互，所以只能有属性不能有方法，且属性的类型仅限于strings, numbers, arrays, boolean, null或另一个json对象。
 2. 而object字面量没有这方面的限制，既可以有属性，也可以有方法。虽然两者看起来都是花括号的形式。

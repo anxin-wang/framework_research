@@ -450,7 +450,7 @@ console.log(protocol); // "https"
 </code></pre>
 <pre><code></code></pre>
 
-####对象解构
+#### 对象解构
 
 **基本定义**
 
@@ -609,7 +609,7 @@ console.log(foo); // "bar"
 </code></pre>
 
 
-###Arrow function
+### Arrow function
 只保留参数、函数statements和返回的表达式，其他都简化了
 语法
 <pre><code>
